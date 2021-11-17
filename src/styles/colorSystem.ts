@@ -6,7 +6,7 @@ const ColorSystem = css`
     --black_1: "#2C2E37";
     --white: "#FFFFFF";
     --gray_1: "#F6F6F6";
-    --gray_2: "##EAEAEB";
+    --gray_2: "#EAEAEB";
     --gray_3: "#DEE0E3";
     --gray_4: "##D7D9DD";
     --gray_6: "#B4B6BC";
