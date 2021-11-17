@@ -8,7 +8,7 @@ const ColorSystem = css`
     --gray_1: "#F6F6F6";
     --gray_2: "#EAEAEB";
     --gray_3: "#DEE0E3";
-    --gray_4: "##D7D9DD";
+    --gray_4: "#D7D9DD";
     --gray_6: "#B4B6BC";
     --gray_7: "#A3A6AE";
     --gray_8: "#70727C";
