@@ -1,4 +1,4 @@
-import type { AppContext, AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import Head from "next/head";
 import { ThemeProvider } from "styled-components";
 import { theme } from "src/styles/theme";
@@ -26,4 +26,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
-export default MyApp;
+
+export default App;
