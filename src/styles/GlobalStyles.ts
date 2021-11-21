@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
 
   html,
   body {
-    font-family: 'sans-serif';
+    font-family: 'Noto Sans KR', sans-serif;
     font-size: 10px;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
