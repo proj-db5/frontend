@@ -1,8 +1,8 @@
 import { ScriptProps } from "next/script";
 import styled from "styled-components";
-import { Navigation, NavigationPage } from "./Navigation";
+import { Navigation, NavigationPage } from "../Navigation";
 
-export const FriendListContainer = ({ children, page }: ScriptProps & { page: NavigationPage }) => {
+export const Container = ({ children, page }: ScriptProps & { page: NavigationPage }) => {
   const title = {
     [NavigationPage.NEARBY]: "내 주변",
     [NavigationPage.FRIENDS]: "친구 목록",
@@ -11,7 +11,7 @@ export const FriendListContainer = ({ children, page }: ScriptProps & { page: Na
   }[page];
 
   return (
-    <Container>
+    <Wrapper>
       <div>
         <Title>{title}</Title>
       </div>
@@ -19,11 +19,11 @@ export const FriendListContainer = ({ children, page }: ScriptProps & { page: Na
         {children}
       </Content>
       <Navigation currentPage={page} />
-    </Container>
+    </Wrapper>
   );
 };
 
-const Container = styled.div`
+const Wrapper = styled.div`
   min-height: 100vh;
   width: 100%;
   background: var(--skyblue_2);
@@ -45,11 +45,4 @@ const Content = styled.div`
 
   background: var(--white);
   border-radius: 8px;
-`;
-
-export const ContentDivider = styled.p`
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  color: var(--skyblue_4);
 `;

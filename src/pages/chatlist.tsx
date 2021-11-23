@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
-import { FriendListContainer } from "../components/FriendListContainer";
+import { Container } from "../components/frientlist/Container";
 import { NavigationPage } from "../components/Navigation";
 
 const ChatList: NextPage = () => {
   return (
-    <FriendListContainer page={NavigationPage.CHATS}>
+    <Container page={NavigationPage.CHATS}>
       <p>-</p>
-    </FriendListContainer>
+    </Container>
   );
 };
 

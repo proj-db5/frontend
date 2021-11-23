@@ -1,13 +1,14 @@
 import type { NextPage } from "next";
-import { ContentDivider, FriendListContainer } from "../components/FriendListContainer";
 import { NavigationPage } from "../components/Navigation";
+import { Container } from "../components/frientlist/Container";
+import { ContentDivider } from "../components/frientlist/ContentDivider";
 
 const Home: NextPage = () => {
   return (
-    <FriendListContainer page={NavigationPage.FRIENDS}>
+    <Container page={NavigationPage.FRIENDS}>
       <ContentDivider>접속 중인 사용자</ContentDivider>
       <ContentDivider>미접속 중인 사용자</ContentDivider>
-    </FriendListContainer>
+    </Container>
   );
 };
 
