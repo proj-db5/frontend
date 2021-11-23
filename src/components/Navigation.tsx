@@ -1,27 +1,36 @@
 import styled from "styled-components";
+import Link from "next/link";
 
-export const Navigation = ({ currentItem }: { currentItem: NavigationItem }) => {
+export const Navigation = ({ currentPage }: { currentPage: NavigationPage }) => {
   return (
     <Wrapper>
-      <Item active={currentItem === NavigationItem.NEARBY}>
-        <div>
-          <span>내 주변</span>
-        </div>
+      <Item active={currentPage === NavigationPage.NEARBY}>
+        <Link href="/nearlist">
+          <div>
+            <span>내 주변</span>
+          </div>
+        </Link>
       </Item>
-      <Item active={currentItem === NavigationItem.FRIENDS}>
-        <span>친구 목록</span>
+      <Item active={currentPage === NavigationPage.FRIENDS}>
+        <Link href="/">
+          <div>
+            <span>친구 목록</span>
+          </div>
+        </Link>
       </Item>
-      <Item active={currentItem === NavigationItem.CHATS}>
-        <span>대화</span>
+      <Item active={currentPage === NavigationPage.CHATS}>
+        <Link href="/chatlist">
+          <span>대화</span>
+        </Link>
       </Item>
-      <Item active={currentItem === NavigationItem.MYPAGE}>
+      <Item active={currentPage === NavigationPage.MYPAGE}>
         <span>마이페이지</span>
       </Item>
     </Wrapper>
   );
 };
 
-export enum NavigationItem {
+export enum NavigationPage {
   NEARBY,
   FRIENDS,
   CHATS,
@@ -52,5 +61,6 @@ const Item = styled.div<{ active: boolean }>`
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
-  color: ${props => props.active ? '#045274' : '#B7B7B7'};
+  color: ${props => props.active ? "var(--skyblue_4)" : "var(--gray_7)"};
+  cursor: pointer;
 `;
