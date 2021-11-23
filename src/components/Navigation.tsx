@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments, faUser } from "@fortawesome/free-regular-svg-icons";
+import { faHouseUser, faList } from "@fortawesome/free-solid-svg-icons";
 
 export const Navigation = ({ currentPage }: { currentPage: NavigationPage }) => {
   return (
@@ -7,24 +10,32 @@ export const Navigation = ({ currentPage }: { currentPage: NavigationPage }) => 
       <Item active={currentPage === NavigationPage.NEARBY}>
         <Link href="/nearlist">
           <div>
-            <span>내 주변</span>
+            <FontAwesomeIcon icon={faHouseUser} height={20}/>
+            <p>내 주변</p>
           </div>
         </Link>
       </Item>
       <Item active={currentPage === NavigationPage.FRIENDS}>
         <Link href="/">
           <div>
-            <span>친구 목록</span>
+            <FontAwesomeIcon icon={faList} height={20}/>
+            <p>친구 목록</p>
           </div>
         </Link>
       </Item>
       <Item active={currentPage === NavigationPage.CHATS}>
         <Link href="/chatlist">
-          <span>대화</span>
+          <div>
+            <FontAwesomeIcon icon={faComments} height={20}/>
+            <p>대화</p>
+          </div>
         </Link>
       </Item>
       <Item active={currentPage === NavigationPage.MYPAGE}>
-        <span>마이페이지</span>
+        <div>
+          <FontAwesomeIcon icon={faUser} height={20} />
+          <p>마이페이지</p>
+        </div>
       </Item>
     </Wrapper>
   );
@@ -61,6 +72,11 @@ const Item = styled.div<{ active: boolean }>`
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
+  text-align: center;
   color: ${props => props.active ? "var(--skyblue_4)" : "var(--gray_7)"};
   cursor: pointer;
+  
+  p {
+    margin: 0;
+  }
 `;
