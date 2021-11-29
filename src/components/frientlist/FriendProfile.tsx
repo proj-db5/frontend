@@ -1,17 +1,34 @@
-import styled from "styled-components";
+import { UserDataProps } from "src/interfaces";
+import { UserType } from "src/libs";
+import styled, { css } from "styled-components";
+import { useRouter } from "next/router";
 
-export const FriendProfile = () => {
+interface FriendProfileProps {
+  data: UserDataProps;
+  isUser?: boolean;
+}
+export const FriendProfile = ({ data, isUser = false }: FriendProfileProps) => {
+  const router = useRouter();
   return (
     <Wrapper>
       <div>
         <ProfileImage src="https://placekitten.com/50/50" alt="프로필 사진" />
       </div>
       <ProfileInfo>
-        <ProfileName>김이름</ProfileName>
-        <ProfileMessage>동해물과백두산이마르고닳도록</ProfileMessage>
+        <ProfileName>
+          {data.name}({UserType(data.type)})
+        </ProfileName>
+        <ProfileMessage>{data.state_message}</ProfileMessage>
       </ProfileInfo>
-      <ProfileAction>
-        <span>채팅</span>
+      <ProfileAction
+        state={data.online}
+        onClick={
+          isUser
+            ? () => router.push("/mypage")
+            : () => data.online && router.push(`/chat/${data.id}`)
+        }
+      >
+        <span>{isUser ? "편집" : "채팅"}</span>
       </ProfileAction>
     </Wrapper>
   );
@@ -21,6 +38,8 @@ const Wrapper = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
+  padding: 19px 0;
+  border-bottom: 1px solid var(--gray_2);
 `;
 
 const ProfileInfo = styled.div`
@@ -51,14 +70,27 @@ const ProfileMessage = styled.p`
   color: var(--skyblue_4);
 `;
 
-const ProfileAction = styled.div`
+interface ProfileActionProps {
+  state: boolean;
+}
+const ProfileAction = styled.div<ProfileActionProps>`
+  cursor: pointer;
   height: 23px;
   width: 50px;
-  background: var(--skyblue_2);
   border-radius: 4px;
   font-weight: 500;
   font-size: 12px;
   line-height: 23px;
   text-align: center;
-  color: var(--white);
+  ${({ state }) =>
+    state
+      ? css`
+          background: var(--skyblue_2);
+          color: var(--white);
+        `
+      : css`
+          background: var(--white);
+          color: var(--skyblue_2);
+          border: 1px solid var(--skyblue_2);
+        `}
 `;
