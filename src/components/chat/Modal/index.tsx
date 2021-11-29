@@ -14,7 +14,6 @@ export interface ModalProps {
 const Modal = ({
   isOpen,
   setIsOpen,
-  time,
   setTime,
   onClickBtn,
 }: ModalProps) => {
