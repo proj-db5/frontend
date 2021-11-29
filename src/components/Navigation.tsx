@@ -4,6 +4,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faUser } from "@fortawesome/free-regular-svg-icons";
 import { faHouseUser, faList } from "@fortawesome/free-solid-svg-icons";
 
+const ItemIcon = ({
+  icon,
+  height,
+}: {
+  icon: any,
+  height: number,
+}) => (
+  <ItemIconWrapper>
+    <FontAwesomeIcon icon={icon} height={height} />
+  </ItemIconWrapper>
+);
+
 export const Navigation = ({
   currentPage,
 }: {
@@ -11,35 +23,27 @@ export const Navigation = ({
 }) => {
   return (
     <Wrapper>
-      <Item active={currentPage === NavigationPage.NEARBY}>
-        <Link href="/nearlist">
-          <div>
-            <FontAwesomeIcon icon={faHouseUser} height={20} />
-            <p>내 주변</p>
-          </div>
-        </Link>
-      </Item>
-      <Item active={currentPage === NavigationPage.FRIENDS}>
-        <Link href="/">
-          <div>
-            <FontAwesomeIcon icon={faList} height={20} />
-            <p>친구 목록</p>
-          </div>
-        </Link>
-      </Item>
-      <Item active={currentPage === NavigationPage.CHATS}>
-        <Link href="/chatlist">
-          <div>
-            <FontAwesomeIcon icon={faComments} height={20} />
-            <p>채팅</p>
-          </div>
-        </Link>
-      </Item>
+      <Link href="/nearlist">
+        <Item active={currentPage === NavigationPage.NEARBY}>
+          <ItemIcon icon={faHouseUser} height={20} />
+          <span>내 주변</span>
+        </Item>
+      </Link>
+      <Link href="/">
+        <Item active={currentPage === NavigationPage.FRIENDS}>
+          <ItemIcon icon={faList} height={20} />
+          <span>친구 목록</span>
+        </Item>
+      </Link>
+      <Link href="/chatlist">
+        <Item active={currentPage === NavigationPage.CHATS}>
+          <ItemIcon icon={faComments} height={20} />
+          <span>채팅</span>
+        </Item>
+      </Link>
       <Item active={currentPage === NavigationPage.MYPAGE}>
-        <div>
-          <FontAwesomeIcon icon={faUser} height={20} />
-          <p>마이페이지</p>
-        </div>
+        <ItemIcon icon={faUser} height={20} />
+        <span>마이페이지</span>
       </Item>
     </Wrapper>
   );
@@ -54,14 +58,20 @@ export enum NavigationPage {
 
 const Wrapper = styled.div`
   position: fixed;
-  bottom: 0;
-
   display: inline;
+  bottom: 0;
   height: 70px;
   width: 100%;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  
+  ${({ theme }) => theme.media.pc`
+    position: initial;
+    height: 100vh;
+    width: 400px;
+    padding: 20px 30px;
+  `}
 
   background: #ffffff;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
 `;
 
 const Item = styled.div<{ active: boolean }>`
@@ -70,17 +80,37 @@ const Item = styled.div<{ active: boolean }>`
   width: 25%;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
   font-size: 12px;
   font-weight: 500;
-  line-height: 18px;
+  line-height: 20px;
   text-align: center;
+  
+  ${({ theme }) => theme.media.pc`
+    float: initial;
+    height: 60px;
+    width: 100%;
+    
+    flex-direction: row;
+    justify-content: start;
+ 
+    font-size: 18px;
+  `}
+
   color: ${(props) => (props.active ? "var(--skyblue_4)" : "var(--gray_7)")};
   cursor: pointer;
+`;
 
-  p {
-    margin: 0;
-  }
+
+const ItemIconWrapper = styled.div`
+  height: 20px;
+  width: 20px;
+  margin-bottom: 6px;
+  
+  ${({ theme }) => theme.media.pc`
+    margin-right: 12px;
+  `};
 `;

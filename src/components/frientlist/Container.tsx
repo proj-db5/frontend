@@ -12,12 +12,12 @@ export const Container = ({ children, page }: ScriptProps & { page: NavigationPa
 
   return (
     <Wrapper>
-      <div>
+      <div style={{ width: "100%" }}>
         <Title>{title}</Title>
+        <Content>
+          {children}
+        </Content>
       </div>
-      <Content>
-        {children}
-      </Content>
       <Navigation currentPage={page} />
     </Wrapper>
   );
@@ -26,7 +26,13 @@ export const Container = ({ children, page }: ScriptProps & { page: NavigationPa
 const Wrapper = styled.div`
   min-height: 100vh;
   width: 100%;
+  display: flex;
   background: var(--skyblue_2);
+  flex-direction: column;
+
+  ${({ theme }) => theme.media.pc`
+    flex-direction: row-reverse;
+  `}
 `;
 
 const Title = styled.p`
@@ -37,6 +43,11 @@ const Title = styled.p`
   font-size: 20px;
   text-align: center;
   color: var(--white);
+  
+  ${({ theme }) => theme.media.pc`
+    padding: 48px 0;
+    font-size: 30px;
+  `}
 `;
 
 const Content = styled.div`
@@ -45,4 +56,8 @@ const Content = styled.div`
 
   background: var(--white);
   border-radius: 8px;
+  
+  ${({ theme }) => theme.media.pc`
+    margin: 0 25px;
+  `}
 `;
