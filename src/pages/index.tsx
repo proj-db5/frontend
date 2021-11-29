@@ -1,19 +1,61 @@
-import type { NextPage } from "next";
-import { NavigationPage } from "../components/Navigation";
-import { Container } from "../components/frientlist/Container";
-import { ContentDivider } from "../components/frientlist/ContentDivider";
-import { FriendProfile } from "../components/frientlist/FriendProfile";
+import Home from "src/components/templates/home";
 
-const Home: NextPage = () => {
+const HomePage = () => {
   return (
-    <Container page={NavigationPage.FRIENDS}>
-      <ContentDivider text="접속 중인 사용자" />
-      <FriendProfile />
-
-      <ContentDivider text="미접속 중인 사용자" addMargin />
-      <FriendProfile />
-    </Container>
+    <Home
+      userData={mock_data}
+      onlineList={mock_data_on}
+      offlineList={mock_data_off}
+    />
   );
 };
 
-export default Home;
+export default HomePage;
+
+// mock data
+const mock_data = {
+  id: "asdfasd",
+  name: "user",
+  type: 2,
+  place: 1,
+  state_message: "asdf",
+  online: true,
+};
+
+const mock_data_on = [
+  {
+    id: "asdfasd",
+    name: "adsfsfd",
+    type: 2,
+    place: 1,
+    state_message: "asdf",
+    online: true,
+  },
+  {
+    id: "asdfasd",
+    name: "adsfsfd",
+    type: 2,
+    place: 1,
+    state_message: "asdf",
+    online: true,
+  },
+];
+
+const mock_data_off = [
+  {
+    id: "asdfasd",
+    name: "adsfsfd",
+    type: 2,
+    place: 1,
+    state_message: "asdf",
+    online: false,
+  },
+  {
+    id: "asdfasd",
+    name: "adsfsfd",
+    type: 2,
+    place: 1,
+    state_message: "asdf",
+    online: false,
+  },
+];

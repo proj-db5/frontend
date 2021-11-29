@@ -1,13 +1,11 @@
-import { UserDataProps } from "src/interfaces";
-import { UserType } from "src/libs";
+import { useRouter } from "next/dist/client/router";
+import { ChatDataProps } from "src/interfaces";
 import styled, { css } from "styled-components";
-import { useRouter } from "next/router";
 
-interface FriendProfileProps {
-  data: UserDataProps;
-  isUser?: boolean;
+interface ChatProfileProps {
+  data: ChatDataProps;
 }
-export const FriendProfile = ({ data, isUser = false }: FriendProfileProps) => {
+const ChatProfile = ({ data }: ChatProfileProps) => {
   const router = useRouter();
   return (
     <Wrapper>
@@ -15,24 +13,23 @@ export const FriendProfile = ({ data, isUser = false }: FriendProfileProps) => {
         <ProfileImage src="https://placekitten.com/50/50" alt="프로필 사진" />
       </div>
       <ProfileInfo>
-        <ProfileName>
-          {data.name}({UserType(data.type)})
-        </ProfileName>
-        <ProfileMessage>{data.state_message}</ProfileMessage>
+        <div className="info">
+          <p className="info__name">{data.user}</p>
+          <p className="info__time">{data.last_message.time}</p>
+        </div>
+        <ProfileMessage>{data.last_message.context}</ProfileMessage>
       </ProfileInfo>
       <ProfileAction
         state={data.online}
-        onClick={
-          isUser
-            ? () => router.push("/mypage")
-            : () => data.online && router.push(`/chat/${data.id}`)
-        }
+        onClick={() => router.push(`/chat/${data.id}`)}
       >
-        <span>{isUser ? "편집" : "채팅"}</span>
+        <span>채팅</span>
       </ProfileAction>
     </Wrapper>
   );
 };
+
+export default ChatProfile;
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,21 +41,32 @@ const Wrapper = styled.div`
 
 const ProfileInfo = styled.div`
   flex-grow: 1;
+  .info {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    &__name {
+      margin: 0;
+      padding: 6px 16px;
+      font-weight: bold;
+      font-size: 17px;
+      line-height: 25px;
+      color: var(--black);
+    }
+    &__time {
+      margin: 0;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--gray_8);
+    }
+  }
 `;
 
 const ProfileImage = styled.img`
   height: 50px;
   width: 50px;
   border-radius: 50%;
-`;
-
-const ProfileName = styled.span`
-  margin: 0;
-  padding: 0 16px;
-  font-weight: bold;
-  font-size: 17px;
-  line-height: 25px;
-  color: var(--black);
 `;
 
 const ProfileMessage = styled.p`
@@ -77,11 +85,13 @@ const ProfileAction = styled.div<ProfileActionProps>`
   cursor: pointer;
   height: 23px;
   width: 50px;
+
   border-radius: 4px;
   font-weight: 500;
   font-size: 12px;
   line-height: 23px;
   text-align: center;
+
   ${({ state }) =>
     state
       ? css`
