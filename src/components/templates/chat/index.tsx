@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bubble, Header, Modal, MyBubble } from "src/components/talk";
+import { Bubble, Header, Modal, MyBubble } from "src/components/chat";
 import styled from "styled-components";
 
 export interface TalkProps {
