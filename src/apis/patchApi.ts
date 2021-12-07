@@ -1,8 +1,8 @@
 import client from "./client";
 
 interface EditDataProps {
-  msg: string;
-  location: number;
+  state_message: string;
+  place: number;
 }
 const patchEditMypage = async (data: EditDataProps) => {
   try {

@@ -9,17 +9,20 @@ import states from "src/modules";
 
 const MyPage = () => {
   const [data, setData] = useState({
-    msg: "",
-    location: 0,
+    state_message: "",
+    place: 0,
   });
   const setLocation = useSetRecoilState(states.LocationState);
 
-  const handleEdit = async (postData: { msg: string; location: number }) => {
+  const handleEdit = async (postData: {
+    state_message: string;
+    place: number;
+  }) => {
     const res = await patchApi.patchEditMypage(postData);
     if (!res) {
       alert("수정 실패!");
     } else {
-      setLocation(data.location);
+      setLocation(data.place);
     }
   };
 
@@ -28,7 +31,7 @@ const MyPage = () => {
     if (res) {
       router.push("/login");
     } else {
-      alert("로아웃 실패!");
+      alert("로그아웃 실패!");
     }
   };
 
@@ -36,10 +39,10 @@ const MyPage = () => {
     const getUserData = async () => {
       const res = await getApi.getFriendUsers("/friend/list");
       setData({
-        msg: res?.userData?.state_message || "",
-        location: res?.userData?.place || 0,
+        state_message: res?.userData[0]?.state_message || "",
+        place: res?.userData[0]?.place || 0,
       });
-      setLocation(res?.userData?.place || 0);
+      setLocation(res?.userData[0]?.place || 0);
     };
     getUserData();
   }, []);
@@ -50,22 +53,22 @@ const MyPage = () => {
         <P1>상태 메시지를 입력해주세요</P1>
         <Input
           placeholder="상태 메시지"
-          value={data.msg}
+          value={data.state_message}
           onChange={(e) =>
             setData({
               ...data,
-              msg: e.target.value,
+              state_message: e.target.value,
             })
           }
         />
 
         <P1>회원 유형을 선택해주세요</P1>
         <Select
-          value={data.location}
+          value={data.place}
           onChange={(e) =>
             setData({
               ...data,
-              location: Number(e.target.value),
+              place: Number(e.target.value),
             })
           }
         >
@@ -79,14 +82,7 @@ const MyPage = () => {
           <Button2 onClick={() => handleEdit(data)}>변경하기</Button2>
         </BtnWrap>
 
-        <Button1 
-        
-        
-        
-        onClick={() => handleLogout({online: 0})}>          
-          로그아웃</Button1>
-
-
+        <Button1 onClick={() => handleLogout({ online: 0 })}>로그아웃</Button1>
 
         <Button1 onClick={() => router.push("/login")}>회원탈퇴</Button1>
       </InnerWrap>
