@@ -53,7 +53,7 @@ const ProfileImage = styled.img`
 `;
 
 const ProfileName = styled.span`
-  width: 230px;
+  width: 200px;
   display: inline-block;
   margin: 0;
   padding: 0 16px;
@@ -69,7 +69,7 @@ const ProfileName = styled.span`
 `;
 
 const ProfileMessage = styled.p`
-  width: 230px;
+  width: 200px;
   display: inline-block;
   margin: 0;
   padding: 0 16px;

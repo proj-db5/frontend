@@ -1,10 +1,10 @@
 import client from "./client";
 
-interface DataProps {
+interface LoginDataProps {
   id: string;
   password: string;
 }
-const postLogin = async (data: DataProps) => {
+const postLogin = async (data: LoginDataProps) => {
   try {
     const res = await client.post("/user/login", data);
     console.log("[SUCCESS] POST LOGIN", res.data);

@@ -2,21 +2,63 @@ import { NavigationPage } from "src/components/Navigation";
 import styled from "styled-components";
 import { Container } from "src/components/common/Container";
 import router from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getApi, patchApi } from "src/apis";
+import { useSetRecoilState } from "recoil";
+import states from "src/modules";
 
 const MyPage = () => {
-  const [location, setLocation] = useState(0);
+  const [data, setData] = useState({
+    msg: "",
+    location: 0,
+  });
+  const setLocation = useSetRecoilState(states.LocationState);
+
+  const handleEdit = async (postData: { msg: string; location: number }) => {
+    const res = await patchApi.patchEditMypage(postData);
+    if (!res) {
+      alert("수정 실패!");
+    } else {
+      setLocation(data.location);
+    }
+  };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const res = await getApi.getFriendUsers("/friend/friend/list");
+      setData({
+        msg: res?.userData?.state_message || "",
+        location: res?.userData?.place || 0,
+      });
+      setLocation(res?.userData?.place || 0);
+    };
+    getUserData();
+  }, []);
 
   return (
     <Container page={NavigationPage.MYPAGE}>
       <div style={{ padding: "0 28px" }}>
         <P1>상태 메시지를 입력해주세요</P1>
-        <Input placeholder="상태 메시지" />
+        <Input
+          placeholder="상태 메시지"
+          value={data.msg}
+          onChange={(e) =>
+            setData({
+              ...data,
+              msg: e.target.value,
+            })
+          }
+        />
 
         <P1>회원 유형을 선택해주세요</P1>
         <Select
-          value={location}
-          onChange={(e) => setLocation(Number(e.target.value))}
+          value={data.location}
+          onChange={(e) =>
+            setData({
+              ...data,
+              location: Number(e.target.value),
+            })
+          }
         >
           <option value="0">공학관</option>
           <option value="1">백양관</option>
@@ -25,8 +67,7 @@ const MyPage = () => {
         </Select>
 
         <BtnWrap>
-          <Button2>변경하기</Button2>
-          <Button3>취소</Button3>
+          <Button2 onClick={() => handleEdit(data)}>변경하기</Button2>
         </BtnWrap>
 
         <Button1 onClick={() => router.push("/login")}>로그아웃</Button1>
