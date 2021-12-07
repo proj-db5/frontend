@@ -4,29 +4,26 @@ import { getApi } from "src/apis";
 import { NextPageContext } from "next";
 
 const HomePage = () => {
-  const { data: FriendList } = useSWR(
-    `/friend/friend/list`,
-    getApi.getFriendUsers,
-  );
+  const { data: FriendList } = useSWR(`/friend/list`, getApi.getFriendUsers);
 
   return (
     <>
-      {/* {FriendList?.userData ? ( */}
-      <Home
-        // userData={FriendList?.userData}
-        // onlineList={
-        //   FriendList?.friendData?.filter((fl) => fl.online === true) || []
-        // }
-        // offlineList={
-        //   FriendList?.friendData?.filter((fl) => fl.online !== true) || []
-        // }
-        userData={mock_data}
-        onlineList={mock_data_on}
-        offlineList={mock_data_off}
-      />
-      {/* ) : (
+      {FriendList?.userData ? (
+        <Home
+          userData={FriendList?.userData}
+          onlineList={
+            FriendList?.friendData?.filter((fl) => fl.online === true) || []
+          }
+          offlineList={
+            FriendList?.friendData?.filter((fl) => fl.online !== true) || []
+          }
+          // userData={mock_data}
+          // onlineList={mock_data_on}
+          // offlineList={mock_data_off}
+        />
+      ) : (
         <div>...loading</div>
-      )} */}
+      )}
     </>
   );
 };
