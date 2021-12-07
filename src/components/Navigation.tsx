@@ -17,16 +17,21 @@ export const Navigation = ({
 }) => {
   return (
     <Wrapper>
+      <Link href="/">
+        <Item
+          active={
+            currentPage === NavigationPage.FRIENDS ||
+            currentPage === NavigationPage.SEARCH
+          }
+        >
+          <ItemIcon icon={faList} height={20} />
+          <span>친구 목록</span>
+        </Item>
+      </Link>
       <Link href="/nearlist">
         <Item active={currentPage === NavigationPage.NEARBY}>
           <ItemIcon icon={faHouseUser} height={20} />
           <span>내 주변</span>
-        </Item>
-      </Link>
-      <Link href="/">
-        <Item active={currentPage === NavigationPage.FRIENDS}>
-          <ItemIcon icon={faList} height={20} />
-          <span>친구 목록</span>
         </Item>
       </Link>
       <Link href="/chatlist">
@@ -36,10 +41,10 @@ export const Navigation = ({
         </Item>
       </Link>
       <Link href="/mypage">
-      <Item active={currentPage === NavigationPage.MYPAGE}>
-        <ItemIcon icon={faUser} height={20} />
-        <span>마이페이지</span>
-      </Item>
+        <Item active={currentPage === NavigationPage.MYPAGE}>
+          <ItemIcon icon={faUser} height={20} />
+          <span>마이페이지</span>
+        </Item>
       </Link>
     </Wrapper>
   );

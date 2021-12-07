@@ -8,4 +8,5 @@ const LocationState = atom<number>({
 const states = {
   LocationState,
 };
+
 export default states;

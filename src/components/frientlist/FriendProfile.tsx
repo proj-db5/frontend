@@ -28,7 +28,7 @@ export const FriendProfile = ({ data, isUser = false }: FriendProfileProps) => {
             : () => router.push(`/chat/${data.id}`)
         }
       >
-        <span>채팅</span>
+        {isUser ? "편집" : "채팅"}
       </ProfileAction>
     </Wrapper>
   );
@@ -43,7 +43,7 @@ const Wrapper = styled.div`
 `;
 
 const ProfileInfo = styled.div`
-  width: fit-content;
+  flex: 1;
 `;
 
 const ProfileImage = styled.img`
