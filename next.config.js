@@ -16,6 +16,9 @@ module.exports = {
     });
 
     config.plugins.push(
+      new webpack.DefinePlugin({
+        API_DOMAIN: JSON.stringify(process.env.API_DOMAIN)
+      }),
       new webpack.EnvironmentPlugin(["NODE_ENV"]),
     );
 
@@ -23,5 +26,6 @@ module.exports = {
   },
 
   env: {
+    API_DOMAIN: process.env.API_DOMAIN,
   },
 };
