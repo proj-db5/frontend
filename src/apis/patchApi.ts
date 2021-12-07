@@ -15,8 +15,23 @@ const patchEditMypage = async (data: EditDataProps) => {
   }
 };
 
+interface LogoutDataProps {
+  online: number;
+}
+const patchLogout = async (data: LogoutDataProps) => {
+  try {
+    const res = await client.patch("/user/logout", data);
+    console.log("[SUCCESS] PATCH LOG OUT", res.data);
+    return res.data;
+  } catch (e) {
+    console.log("[FAIL] PATCH LOG OUT", e);
+    return undefined;
+  }
+};
+
 const patchApi = {
   patchEditMypage,
+  patchLogout,
 };
 
 export default patchApi;

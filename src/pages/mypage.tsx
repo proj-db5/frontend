@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Container } from "src/components/common/Container";
 import router from "next/router";
 import { useEffect, useState } from "react";
-import { getApi, patchApi, logoutpatchApi } from "src/apis";
+import { getApi, patchApi } from "src/apis";
 import { useSetRecoilState } from "recoil";
 import states from "src/modules";
 
@@ -19,15 +19,15 @@ const MyPage = () => {
     place: number;
   }) => {
     const res = await patchApi.patchEditMypage(postData);
-    if (!res) {
-      alert("수정 실패!");
-    } else {
+    if (res) {
       setLocation(data.place);
+    } else {
+      alert("수정 실패!");
     }
   };
 
   const handleLogout = async (postData: { online: number }) => {
-    const res = await logoutpatchApi.logoutpatch(postData);
+    const res = await patchApi.patchLogout(postData);
     if (res) {
       router.push("/login");
     } else {
