@@ -14,9 +14,7 @@ export const Container = ({ children, page }: ScriptProps & { page: NavigationPa
     <Wrapper>
       <div style={{ width: "100%" }}>
         <Title>{title}</Title>
-        <Content>
-          {children}
-        </Content>
+        {children}
       </div>
       <Navigation currentPage={page} />
     </Wrapper>

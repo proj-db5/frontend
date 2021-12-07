@@ -1,17 +1,20 @@
 import type { NextPage } from "next";
 import { NavigationPage } from "../components/Navigation";
-import { Container } from "../components/frientlist/Container";
-import { ContentDivider } from "../components/frientlist/ContentDivider";
+import { Container } from "../components/common/Container";
+import { ContentDivider } from "../components/common/ContentDivider";
 import { FriendProfile } from "../components/frientlist/FriendProfile";
+import { Content } from "src/components/common/Content";
 
 const NearList: NextPage = () => {
   return (
     <Container page={NavigationPage.NEARBY}>
+      <Content>
       <ContentDivider text="근처 접속 중인 사용자" />
       <FriendProfile data={mock_data} />
 
       <ContentDivider text="근처 미접속 중인 사용자" addMargin />
       <FriendProfile data={mock_data} />
+      </Content>
     </Container>
   );
 };
@@ -26,3 +29,5 @@ const mock_data = {
   state_message: "asdf",
   online: true,
 };
+
+

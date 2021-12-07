@@ -41,10 +41,12 @@ export const Navigation = ({
           <span>채팅</span>
         </Item>
       </Link>
+      <Link href="/mypage">
       <Item active={currentPage === NavigationPage.MYPAGE}>
         <ItemIcon icon={faUser} height={20} />
         <span>마이페이지</span>
       </Item>
+      </Link>
     </Wrapper>
   );
 };
