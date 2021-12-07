@@ -25,7 +25,7 @@ const MyPage = () => {
 
   useEffect(() => {
     const getUserData = async () => {
-      const res = await getApi.getFriendUsers("/friend/friend/list");
+      const res = await getApi.getFriendUsers("/friend/list");
       setData({
         msg: res?.userData?.state_message || "",
         location: res?.userData?.place || 0,
