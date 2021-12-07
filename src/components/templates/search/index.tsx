@@ -1,6 +1,6 @@
 import { NavigationPage } from "src/components/Navigation";
 import { Container } from "src/components/frientlist/Container";
-import { ContentDivider } from "src/components/frientlist/ContentDivider";
+import { ContentDivider } from "src/components/common/ContentDivider";
 import { FriendProfile } from "src/components/frientlist/FriendProfile";
 import { UserDataProps } from "src/interfaces";
 import styled from "styled-components";
