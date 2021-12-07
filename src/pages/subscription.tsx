@@ -1,10 +1,16 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { BackIcon } from "src/assets/common";
 import styled from "styled-components";
 
 const Subscription: NextPage = () => {
   const router = useRouter();
+  const [data, setData] = useState({
+    id: "",
+    password: "",
+  });
+
   return (
     <Wrapper>
       <BackIcon
@@ -15,7 +21,17 @@ const Subscription: NextPage = () => {
 
       <P1>ID를 입력주세요</P1>
       <div style={{ display: "flex", flexDirection: "row" }}>
-        <Input2 type="username" placeholder="예: yonseiDB" />
+        <Input2
+          type="username"
+          placeholder="예: yonseiDB"
+          value={data.id}
+          onChange={(e) =>
+            setData({
+              ...data,
+              id: e.target.value,
+            })
+          }
+        />
         <Button1>중복확인</Button1>
       </div>
       <P2>사용가능한 id 입니다.</P2>
@@ -23,7 +39,17 @@ const Subscription: NextPage = () => {
       <div style={{ height: "20px" }} />
 
       <P1>비밀번호 입력해주세요</P1>
-      <Input type="password" placeholder="비밀번호 입력해주세요" />
+      <Input
+        type="password"
+        placeholder="비밀번호 입력해주세요"
+        value={data.password}
+        onChange={(e) =>
+          setData({
+            ...data,
+            password: e.target.value,
+          })
+        }
+      />
 
       <P1>비밀번호 다시 입력해주세요</P1>
 
@@ -42,7 +68,7 @@ const Subscription: NextPage = () => {
         <option value="기업">기업</option>
       </Select>
 
-      <Button2 onClick={() => router.push("/login")}>회원가입</Button2>
+      <Button2 onClick={() => router.push("/subscription")}>회원가입</Button2>
     </Wrapper>
   );
 };
@@ -155,8 +181,11 @@ const Button1 = styled.button`
 `;
 
 const Button2 = styled.button`
-  margin: 50px 0;
-  width: 100%;
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 94%;
   padding: 15px;
 
   text-align: center;
