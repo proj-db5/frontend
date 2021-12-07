@@ -1,10 +1,16 @@
 import type { NextPage } from "next";
-import router from "next/router";
+import { useRouter } from "next/router";
+import { BackIcon } from "src/assets/common";
 import styled from "styled-components";
 
 const Subscription: NextPage = () => {
+  const router = useRouter();
   return (
     <Wrapper>
+      <BackIcon
+        style={{ position: "fixed", left: "30px", top: "40px" }}
+        onClick={() => router.back()}
+      />
       <Title>연세톡 회원가입</Title>
 
       <P1>ID를 입력주세요</P1>
