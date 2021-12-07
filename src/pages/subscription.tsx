@@ -9,6 +9,8 @@ const Subscription: NextPage = () => {
   const [data, setData] = useState({
     id: "",
     password: "",
+    type: 0,
+    nickname: "",
   });
 
   return (
@@ -32,7 +34,11 @@ const Subscription: NextPage = () => {
             })
           }
         />
+
+        
         <Button1>중복확인</Button1>
+
+
       </div>
       <P2>사용가능한 id 입니다.</P2>
       <P2 style={{ color: "#FEB287" }}>이미 존재하는 id 입니다.</P2>
@@ -57,18 +63,35 @@ const Subscription: NextPage = () => {
 
       <P1>원하는 닉네임을 입력해주세요</P1>
 
-      <Input placeholder="예: 시누" />
+      <Input 
+      placeholder="예: 시누" 
+      value={data.nickname}
+          onChange={(e) =>
+            setData({
+              ...data,
+              nickname: e.target.value,
+            })
+          }
+      />
 
       <P1>회원 유형을 선택해주세요</P1>
 
-      <Select>
-        <option value="일반">일반</option>
-        <option value="학생">학생</option>
-        <option value="강사">강사</option>
-        <option value="기업">기업</option>
+      <Select
+      value={data.type}
+      onChange={(e) =>
+        setData({
+          ...data,
+          type: Number(e.target.value),
+        })
+      }
+      >
+        <option value="0">일반</option>
+        <option value="1">학생</option>
+        <option value="2">강사</option>
+        <option value="3">기업</option>
       </Select>
 
-      <Button2 onClick={() => router.push("/subscription")}>회원가입</Button2>
+      <Button2 onClick={() => router.push("/login")}>회원가입</Button2>
     </Wrapper>
   );
 };

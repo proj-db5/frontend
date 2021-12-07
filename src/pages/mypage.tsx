@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Container } from "src/components/common/Container";
 import router from "next/router";
 import { useEffect, useState } from "react";
-import { getApi, patchApi } from "src/apis";
+import { getApi, patchApi, logoutpatchApi } from "src/apis";
 import { useSetRecoilState } from "recoil";
 import states from "src/modules";
 
@@ -20,6 +20,15 @@ const MyPage = () => {
       alert("수정 실패!");
     } else {
       setLocation(data.location);
+    }
+  };
+
+  const handleLogout = async (postData: { online: number }) => {
+    const res = await logoutpatchApi.logoutpatch(postData);
+    if (res) {
+      router.push("/login");
+    } else {
+      alert("로아웃 실패!");
     }
   };
 
@@ -70,7 +79,15 @@ const MyPage = () => {
           <Button2 onClick={() => handleEdit(data)}>변경하기</Button2>
         </BtnWrap>
 
-        <Button1 onClick={() => router.push("/login")}>로그아웃</Button1>
+        <Button1 
+        
+        
+        
+        onClick={() => handleLogout({online: 0})}>          
+          로그아웃</Button1>
+
+
+
         <Button1 onClick={() => router.push("/login")}>회원탈퇴</Button1>
       </div>
     </Container>
@@ -161,23 +178,6 @@ const Button2 = styled.button`
   border-radius: 12px;
 
   color: #00809c;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 24px;
-`;
-
-const Button3 = styled.button`
-  cursor: pointer;
-  all: unset;
-  box-sizing: border-box;
-  padding: 14px;
-
-  text-align: center;
-  border: 1px solid #0b97b6;
-  background-color: #00809c;
-  border-radius: 12px;
-
-  color: #4baccb;
   font-weight: 600;
   font-size: 12px;
   line-height: 24px;

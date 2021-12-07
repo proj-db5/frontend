@@ -46,6 +46,8 @@ const Login: NextPage = () => {
         }
       />
       <Button1 onClick={() => router.push("/subscription")}>회원가입</Button1>
+
+      
       <Button2
         onClick={() => {
           handleLogin(data);
