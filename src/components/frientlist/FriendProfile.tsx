@@ -22,13 +22,9 @@ export const FriendProfile = ({ data, isUser = false }: FriendProfileProps) => {
       </ProfileInfo>
       <ProfileAction
         state={data.online}
-        onClick={
-          isUser
-            ? () => router.push("/mypage")
-            : () => data.online && router.push(`/chat/${data.id}`)
-        }
+        onClick={() => data.online && router.push(`/chat/${data.id}`)}
       >
-        <span>{isUser ? "편집" : "채팅"}</span>
+        <span>채팅</span>
       </ProfileAction>
     </Wrapper>
   );
@@ -43,7 +39,7 @@ const Wrapper = styled.div`
 `;
 
 const ProfileInfo = styled.div`
-  flex-grow: 1;
+  width: fit-content;
 `;
 
 const ProfileImage = styled.img`
@@ -53,21 +49,35 @@ const ProfileImage = styled.img`
 `;
 
 const ProfileName = styled.span`
+  width: 230px;
+  display: inline-block;
   margin: 0;
   padding: 0 16px;
   font-weight: bold;
   font-size: 17px;
   line-height: 25px;
   color: var(--black);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  overflow: hidden;
 `;
 
 const ProfileMessage = styled.p`
+  width: 230px;
+  display: inline-block;
   margin: 0;
   padding: 0 16px;
   font-weight: 500;
   font-size: 12px;
   line-height: 17px;
   color: var(--skyblue_4);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  overflow: hidden;
 `;
 
 interface ProfileActionProps {
