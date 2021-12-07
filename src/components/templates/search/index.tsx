@@ -8,8 +8,9 @@ import { useState } from "react";
 
 interface SearchProps {
   searchList: UserDataProps[];
+  handleSearch: (e: string) => Promise<void>;
 }
-const Search = ({ searchList }: SearchProps) => {
+const Search = ({ searchList, handleSearch }: SearchProps) => {
   const [value, setValue] = useState("");
 
   return (
@@ -18,6 +19,7 @@ const Search = ({ searchList }: SearchProps) => {
         placeholder="id 또는 이름을 입력해주세요"
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && handleSearch(value)}
       />
       <div style={{ height: "30px" }} />
       <ContentDivider text="검색 결과" />
@@ -38,8 +40,11 @@ const Input = styled.input`
   border: 2px solid var(--gray_2);
   box-sizing: border-box;
   border-radius: 8px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   line-height: 20px;
   color: var(--gray_9);
+  &::placeholder {
+    font-weight: 400;
+  }
 `;

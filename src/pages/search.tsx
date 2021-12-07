@@ -3,21 +3,19 @@ import Search from "src/components/templates/search";
 import { getApi } from "src/apis";
 
 const SearchPage = () => {
-  const { data: FriendList } = useSWR(`/friend/list`, getApi.getFriendUsers);
+  const { data: FriendList, mutate } = useSWR(
+    `/friend/friend/`,
+    getApi.getSearchedUsers,
+  );
+
+  const handleSearch = async (value: string) => {
+    await mutate(getApi.getSearchedUsers(`/friend/friend/${value}`), false);
+  };
 
   return (
     <>
       {/* {FriendList?.userData ? ( */}
-      <Search
-        // userData={FriendList?.userData}
-        // onlineList={
-        //   FriendList?.friendData?.filter((fl) => fl.online === true) || []
-        // }
-        // offlineList={
-        //   FriendList?.friendData?.filter((fl) => fl.online !== true) || []
-        // }
-        searchList={mock_data_on}
-      />
+      <Search handleSearch={handleSearch} searchList={mock_data_on} />
       {/* ) : (
         <div>...loading</div>
       )} */}
