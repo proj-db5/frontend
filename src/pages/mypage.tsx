@@ -37,7 +37,7 @@ const MyPage = () => {
 
   return (
     <Container page={NavigationPage.MYPAGE}>
-      <div style={{ padding: "0 28px" }}>
+      <InnerWrap>
         <P1>상태 메시지를 입력해주세요</P1>
         <Input
           placeholder="상태 메시지"
@@ -72,12 +72,24 @@ const MyPage = () => {
 
         <Button1 onClick={() => router.push("/login")}>로그아웃</Button1>
         <Button1 onClick={() => router.push("/login")}>회원탈퇴</Button1>
-      </div>
+      </InnerWrap>
     </Container>
   );
 };
 
 export default MyPage;
+
+const InnerWrap = styled.div`
+  width: 100%;
+  padding: 0 28px;
+  max-width: 600px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Select = styled.select`
   width: 100%;

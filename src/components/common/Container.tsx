@@ -22,13 +22,16 @@ export const Container = ({
       <div style={{ width: "100%" }}>
         <Title>
           {title.includes("검색") ? (
-            <BackIcon onClick={() => router.back()} />
+            <BackIcon className="back_icon" onClick={() => router.back()} />
           ) : (
             <div />
           )}
           {title}
           {title.includes("목록") ? (
-            <SearchIcon onClick={() => router.push("/search")} />
+            <SearchIcon
+              className="search_icon"
+              onClick={() => router.push("/search")}
+            />
           ) : (
             <div />
           )}
@@ -67,8 +70,17 @@ const Title = styled.p`
   justify-content: space-between;
 
   ${({ theme }) => theme.media.pc`
-    padding: 48px 0;
+    padding: 48px 40px;
     font-size: 30px;
+
+    .back_icon {
+      width: 40px;
+      height: 40px;
+    }
+    .search_icon {
+      width: 40px;
+      height: 40px;
+    }
   `}
 `;
 

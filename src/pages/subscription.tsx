@@ -13,62 +13,64 @@ const Subscription: NextPage = () => {
 
   return (
     <Wrapper>
-      <BackIcon
-        style={{ position: "fixed", left: "30px", top: "40px" }}
-        onClick={() => router.back()}
-      />
-      <Title>연세톡 회원가입</Title>
+      <InnerWrap>
+        <BackIcon
+          style={{ position: "fixed", left: "30px", top: "40px" }}
+          onClick={() => router.back()}
+        />
+        <Title>연세톡 회원가입</Title>
 
-      <P1>ID를 입력주세요</P1>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <Input2
-          type="username"
-          placeholder="예: yonseiDB"
-          value={data.id}
+        <P1>ID를 입력주세요</P1>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Input2
+            type="username"
+            placeholder="예: yonseiDB"
+            value={data.id}
+            onChange={(e) =>
+              setData({
+                ...data,
+                id: e.target.value,
+              })
+            }
+          />
+          <Button1>중복확인</Button1>
+        </div>
+        <P2>사용가능한 id 입니다.</P2>
+        <P2 style={{ color: "#FEB287" }}>이미 존재하는 id 입니다.</P2>
+        <div style={{ height: "20px" }} />
+
+        <P1>비밀번호 입력해주세요</P1>
+        <Input
+          type="password"
+          placeholder="비밀번호 입력해주세요"
+          value={data.password}
           onChange={(e) =>
             setData({
               ...data,
-              id: e.target.value,
+              password: e.target.value,
             })
           }
         />
-        <Button1>중복확인</Button1>
-      </div>
-      <P2>사용가능한 id 입니다.</P2>
-      <P2 style={{ color: "#FEB287" }}>이미 존재하는 id 입니다.</P2>
-      <div style={{ height: "20px" }} />
 
-      <P1>비밀번호 입력해주세요</P1>
-      <Input
-        type="password"
-        placeholder="비밀번호 입력해주세요"
-        value={data.password}
-        onChange={(e) =>
-          setData({
-            ...data,
-            password: e.target.value,
-          })
-        }
-      />
+        <P1>비밀번호 다시 입력해주세요</P1>
 
-      <P1>비밀번호 다시 입력해주세요</P1>
+        <Input type="password" placeholder="비밀번호 다시 입력해주세요" />
 
-      <Input type="password" placeholder="비밀번호 다시 입력해주세요" />
+        <P1>원하는 닉네임을 입력해주세요</P1>
 
-      <P1>원하는 닉네임을 입력해주세요</P1>
+        <Input placeholder="예: 시누" />
 
-      <Input placeholder="예: 시누" />
+        <P1>회원 유형을 선택해주세요</P1>
 
-      <P1>회원 유형을 선택해주세요</P1>
+        <Select>
+          <option value="일반">일반</option>
+          <option value="학생">학생</option>
+          <option value="강사">강사</option>
+          <option value="기업">기업</option>
+        </Select>
 
-      <Select>
-        <option value="일반">일반</option>
-        <option value="학생">학생</option>
-        <option value="강사">강사</option>
-        <option value="기업">기업</option>
-      </Select>
-
-      <Button2 onClick={() => router.push("/subscription")}>회원가입</Button2>
+        <Button2 onClick={() => router.push("/subscription")}>회원가입</Button2>
+      </InnerWrap>
     </Wrapper>
   );
 };
@@ -78,8 +80,19 @@ export default Subscription;
 const Wrapper = styled.div`
   min-height: 100vh;
   width: 100%;
-  padding: 0 28px;
   background: var(--skyblue_2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const InnerWrap = styled.div`
+  width: 100%;
+  padding: 0 28px;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Select = styled.select`
@@ -186,6 +199,7 @@ const Button2 = styled.button`
   left: 50%;
   transform: translateX(-50%);
   width: 94%;
+  max-width: 544px;
   padding: 15px;
 
   text-align: center;

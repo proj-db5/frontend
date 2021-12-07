@@ -22,46 +22,59 @@ const Login: NextPage = () => {
 
   return (
     <Wrapper>
-      <Title>연세톡 로그인</Title>
-      <Input
-        type="username"
-        placeholder="아이디"
-        value={data.id}
-        onChange={(e) =>
-          setData({
-            ...data,
-            id: e.target.value,
-          })
-        }
-      />
-      <Input
-        type="password"
-        placeholder="비밀번호"
-        value={data.password}
-        onChange={(e) =>
-          setData({
-            ...data,
-            password: e.target.value,
-          })
-        }
-      />
-      <Button1 onClick={() => router.push("/subscription")}>회원가입</Button1>
-      <Button2
-        onClick={() => {
-          handleLogin(data);
-        }}
-      >
-        로그인
-      </Button2>
+      <InnerWrap>
+        <Title>연세톡 로그인</Title>
+        <Input
+          type="username"
+          placeholder="아이디"
+          value={data.id}
+          onChange={(e) =>
+            setData({
+              ...data,
+              id: e.target.value,
+            })
+          }
+        />
+        <Input
+          type="password"
+          placeholder="비밀번호"
+          value={data.password}
+          onChange={(e) =>
+            setData({
+              ...data,
+              password: e.target.value,
+            })
+          }
+        />
+        <Button1 onClick={() => router.push("/subscription")}>회원가입</Button1>
+        <Button2
+          onClick={() => {
+            handleLogin(data);
+          }}
+        >
+          로그인
+        </Button2>
+      </InnerWrap>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  padding: 0 28px;
   width: 100%;
   background: var(--skyblue_2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const InnerWrap = styled.div`
+  width: 100%;
+  padding: 0 28px;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Title = styled.p`
@@ -96,7 +109,7 @@ const Input = styled.input`
 `;
 
 const Button1 = styled.button`
-  float: right;
+  width: 100%;
   text-align: right;
   border: 1px solid #0b97b6;
   background-color: #0b97b6;
@@ -113,6 +126,7 @@ const Button2 = styled.button`
   left: 50%;
   transform: translateX(-50%);
   width: 94%;
+  max-width: 544px;
   padding: 15px;
   text-align: center;
   border: 1px solid #0b97b6;

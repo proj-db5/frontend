@@ -44,6 +44,8 @@ const Wrapper = styled.div`
 
 const ProfileInfo = styled.div`
   flex: 1;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ProfileImage = styled.img`
