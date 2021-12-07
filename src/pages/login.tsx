@@ -13,7 +13,7 @@ const Login: NextPage = () => {
 
   const handleLogin = async (postData: { id: string; password: string }) => {
     const res = await postApi.postLogin(postData);
-    if (res) {
+    if (res.status === 200) {
       router.push("/");
     } else {
       alert("로그인 실패!");

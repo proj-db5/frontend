@@ -2,24 +2,28 @@ import useSWR from "swr";
 import Home from "src/components/templates/home";
 import { getApi } from "src/apis";
 import { NextPageContext } from "next";
+import { useSetRecoilState } from "recoil";
+import states from "src/modules";
 
 const HomePage = () => {
-  const { data: FriendList } = useSWR(`/friend/list`, getApi.getFriendUsers);
+  const setLocation = useSetRecoilState(states.LocationState);
+  const { data: FriendList } = useSWR(`/friend/list`, getApi.getFriendUsers, {
+    onSuccess: (data) => {
+      setLocation(data?.userData[0].place);
+    },
+  });
 
   return (
     <>
       {FriendList?.userData ? (
         <Home
-          userData={FriendList?.userData}
+          userData={FriendList?.userData[0]}
           onlineList={
             FriendList?.friendData?.filter((fl) => fl.online === true) || []
           }
           offlineList={
             FriendList?.friendData?.filter((fl) => fl.online !== true) || []
           }
-          // userData={mock_data}
-          // onlineList={mock_data_on}
-          // offlineList={mock_data_off}
         />
       ) : (
         <div>...loading</div>
