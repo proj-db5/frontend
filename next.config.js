@@ -23,5 +23,7 @@ module.exports = {
   },
 
   env: {
+    serverHost: process.env.SERVER_HOST || 'http://127.0.0.1:3000',
+    socketHost: process.env.SOCKET_HOST || 'http://127.0.0.1:4000',
   },
 };
