@@ -15,7 +15,7 @@ const getNearUsers = async (
 };
 
 interface retGetFriendUsersProps {
-  userData: UserDataProps;
+  userData: UserDataProps[];
   friendData: UserDataProps[];
 }
 const getFriendUsers = async (

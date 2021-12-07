@@ -9,7 +9,7 @@ const HomePage = () => {
   const setLocation = useSetRecoilState(states.LocationState);
   const { data: FriendList } = useSWR(`/friend/list`, getApi.getFriendUsers, {
     onSuccess: (data) => {
-      setLocation(data?.userData[0].place);
+      setLocation(data?.userData[0].place || 0);
     },
   });
 
@@ -33,54 +33,6 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-// mock data
-const mock_data = {
-  id: "asdfasd",
-  name: "user",
-  type: 0,
-  place: 1,
-  state_message: "asdfdjfkajkfjakfkjdkfjkajfjjfdfjkdfakfjkjakjkjkaakjfjkajfak",
-  online: true,
-};
-
-const mock_data_on = [
-  {
-    id: "asdfasd",
-    name: "adsfsfd",
-    type: 2,
-    place: 1,
-    state_message: "asdf",
-    online: true,
-  },
-  {
-    id: "asdfasd",
-    name: "adsfsfd",
-    type: 1,
-    place: 1,
-    state_message: "asdf",
-    online: true,
-  },
-];
-
-const mock_data_off = [
-  {
-    id: "asdfasd",
-    name: "adsfsfd",
-    type: 2,
-    place: 1,
-    state_message: "asdf",
-    online: false,
-  },
-  {
-    id: "asdfasd",
-    name: "adsfsfd",
-    type: 3,
-    place: 1,
-    state_message: "asdf",
-    online: false,
-  },
-];
 
 // url 직접 접근 방지
 HomePage.getInitialProps = async (ctx: NextPageContext) => {
