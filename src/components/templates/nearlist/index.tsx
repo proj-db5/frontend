@@ -5,12 +5,13 @@ import { FriendProfile } from "src/components/frientlist/FriendProfile";
 import { UserDataProps } from "src/interfaces";
 
 interface NearListProps {
+  location: number;
   onlineList: UserDataProps[];
   offlineList: UserDataProps[];
 }
-const NearList = ({ onlineList, offlineList }: NearListProps) => {
+const NearList = ({ onlineList, offlineList, location }: NearListProps) => {
   return (
-    <Container page={NavigationPage.NEARBY}>
+    <Container page={NavigationPage.NEARBY} location={location}>
       <ContentDivider text="접속 중인 사용자" />
       {onlineList.map((ol) => (
         <FriendProfile key={ol.id} data={ol} />

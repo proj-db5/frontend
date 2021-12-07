@@ -16,13 +16,17 @@ export const FriendProfile = ({ data, isUser = false }: FriendProfileProps) => {
       </div>
       <ProfileInfo>
         <ProfileName>
-          {data.name}({UserType(data.type)})
+          ({UserType(data.type)}){data.name}
         </ProfileName>
         <ProfileMessage>{data.state_message}</ProfileMessage>
       </ProfileInfo>
       <ProfileAction
         state={data.online}
-        onClick={() => data.online && router.push(`/chat/${data.id}`)}
+        onClick={
+          isUser
+            ? () => router.push("/mypage")
+            : () => router.push(`/chat/${data.id}`)
+        }
       >
         <span>채팅</span>
       </ProfileAction>
