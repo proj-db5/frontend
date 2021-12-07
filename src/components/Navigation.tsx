@@ -4,13 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faUser } from "@fortawesome/free-regular-svg-icons";
 import { faHouseUser, faList } from "@fortawesome/free-solid-svg-icons";
 
-const ItemIcon = ({
-  icon,
-  height,
-}: {
-  icon: any,
-  height: number,
-}) => (
+const ItemIcon = ({ icon, height }: { icon: any; height: number }) => (
   <ItemIconWrapper>
     <FontAwesomeIcon icon={icon} height={height} />
   </ItemIconWrapper>
@@ -56,6 +50,7 @@ export enum NavigationPage {
   FRIENDS,
   CHATS,
   MYPAGE,
+  SEARCH,
 }
 
 const Wrapper = styled.div`
@@ -65,7 +60,7 @@ const Wrapper = styled.div`
   height: 70px;
   width: 100%;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  
+
   ${({ theme }) => theme.media.pc`
     position: initial;
     height: 100vh;
@@ -90,7 +85,7 @@ const Item = styled.div<{ active: boolean }>`
   font-weight: 500;
   line-height: 20px;
   text-align: center;
-  
+
   ${({ theme }) => theme.media.pc`
     float: initial;
     height: 60px;
@@ -106,12 +101,11 @@ const Item = styled.div<{ active: boolean }>`
   cursor: pointer;
 `;
 
-
 const ItemIconWrapper = styled.div`
   height: 20px;
   width: 20px;
   margin-bottom: 6px;
-  
+
   ${({ theme }) => theme.media.pc`
     margin-right: 12px;
   `};
