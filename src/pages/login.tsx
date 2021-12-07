@@ -1,15 +1,58 @@
 import type { NextPage } from "next";
-import router from "next/router";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import postApi from "src/apis/postApi";
 import styled from "styled-components";
 
 const Login: NextPage = () => {
+  const router = useRouter();
+  const [data, setData] = useState({
+    id: "",
+    password: "",
+  });
+
+  const handleLogin = async (postData: { id: string; password: string }) => {
+    const res = await postApi.postLogin(postData);
+    if (res) {
+      router.push("/");
+    } else {
+      alert("로그인 실패!");
+    }
+  };
+
   return (
     <Wrapper>
       <Title>연세톡 로그인</Title>
-      <Input type="username" placeholder="아이디" />
-      <Input type="password" placeholder="비밀번호" />
+      <Input
+        type="username"
+        placeholder="아이디"
+        value={data.id}
+        onChange={(e) =>
+          setData({
+            ...data,
+            id: e.target.value,
+          })
+        }
+      />
+      <Input
+        type="password"
+        placeholder="비밀번호"
+        value={data.password}
+        onChange={(e) =>
+          setData({
+            ...data,
+            password: e.target.value,
+          })
+        }
+      />
       <Button1 onClick={() => router.push("/subscription")}>회원가입</Button1>
-      <Button2 onClick={() => router.push("/")}>로그인</Button2>
+      <Button2
+        onClick={() => {
+          handleLogin(data);
+        }}
+      >
+        로그인
+      </Button2>
     </Wrapper>
   );
 };
