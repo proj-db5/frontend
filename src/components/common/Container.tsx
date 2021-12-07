@@ -1,19 +1,38 @@
+import { useRouter } from "next/router";
 import { ScriptProps } from "next/script";
+import { BackIcon, SearchIcon } from "src/assets/common";
 import styled from "styled-components";
 import { Navigation, NavigationPage } from "../Navigation";
 
-export const Container = ({ children, page }: ScriptProps & { page: NavigationPage }) => {
+export const Container = ({
+  children,
+  page,
+}: ScriptProps & { page: NavigationPage }) => {
   const title = {
     [NavigationPage.NEARBY]: "내 주변",
     [NavigationPage.FRIENDS]: "친구 목록",
     [NavigationPage.CHATS]: "대화",
     [NavigationPage.MYPAGE]: "마이페이지",
+    [NavigationPage.SEARCH]: "친구 검색",
   }[page];
+  const router = useRouter();
 
   return (
     <Wrapper>
       <div style={{ width: "100%" }}>
-        <Title>{title}</Title>
+        <Title>
+          {title.includes("검색") ? (
+            <BackIcon onClick={() => router.back()} />
+          ) : (
+            <div />
+          )}
+          {title}
+          {title.includes("목록") ? (
+            <SearchIcon onClick={() => router.push("/search")} />
+          ) : (
+            <div />
+          )}
+        </Title>
         {children}
       </div>
       <Navigation currentPage={page} />
@@ -34,14 +53,19 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.p`
-  padding: 26px 0;
+  padding: 26px 20px;
   margin: 0;
 
   font-weight: bold;
   font-size: 20px;
   text-align: center;
   color: var(--white);
-  
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
   ${({ theme }) => theme.media.pc`
     padding: 48px 0;
     font-size: 30px;
@@ -54,7 +78,7 @@ const Content = styled.div`
 
   background: var(--white);
   border-radius: 8px;
-  
+
   ${({ theme }) => theme.media.pc`
     margin: 0 25px;
   `}
