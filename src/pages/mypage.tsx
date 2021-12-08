@@ -21,8 +21,9 @@ const MyPage = () => {
     const res = await patchApi.patchEditMypage(postData);
     if (res) {
       setLocation(data.place);
+      alert("수정하였습니다.");
     } else {
-      alert("수정 실패!");
+      alert("수정을 실패하였습니다.");
     }
   };
 
@@ -31,7 +32,7 @@ const MyPage = () => {
     if (res) {
       router.push("/login");
     } else {
-      alert("로그아웃 실패!");
+      alert("로그아웃을 실패하였습니다.");
     }
   };
 

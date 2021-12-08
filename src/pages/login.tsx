@@ -16,7 +16,7 @@ const Login: NextPage = () => {
     if (res.status === 200) {
       router.push("/");
     } else {
-      alert("로그인 실패!");
+      alert("로그인을 실패하였습니다.");
     }
   };
 
