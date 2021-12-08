@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Container } from "src/components/common/Container";
 import router from "next/router";
 import { useEffect, useState } from "react";
-import { getApi, patchApi, logoutpatchApi } from "src/apis";
+import { getApi, patchApi, logoutpatchApi, signout } from "src/apis";
 import { useSetRecoilState } from "recoil";
 import states from "src/modules";
 
@@ -28,9 +28,19 @@ const MyPage = () => {
     if (res) {
       router.push("/login");
     } else {
-      alert("로아웃 실패!");
+      alert("로그아웃 실패!");
     }
   };
+
+  const handleSignout = async () => {
+    const res = await signout.Signout();
+    if (res) {
+      router.push("/login");
+    } else {
+      alert("회원탈퇴 실패!");
+    }
+  };
+
 
   useEffect(() => {
     const getUserData = async () => {
@@ -81,14 +91,16 @@ const MyPage = () => {
 
         <Button1 
         
-        
-        
         onClick={() => handleLogout({online: 0})}>          
           로그아웃</Button1>
 
 
+        <Button1 
+        
+        onClick={() => handleSignout()}>  
+          회원탈퇴</Button1>
 
-        <Button1 onClick={() => router.push("/login")}>회원탈퇴</Button1>
+
       </div>
     </Container>
   );
