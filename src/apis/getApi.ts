@@ -52,8 +52,8 @@ const getChatList = async (
 ): Promise<ChatDataProps[] | undefined> => {
   try {
     const res = await client.get(url);
-    console.log("[SUCCESS] GET CHAT LIST", res.data.data.room);
-    return res.data.data.room;
+    console.log("[SUCCESS] GET CHAT LIST", res.data.data);
+    return res.data.data;
   } catch (e) {
     console.log("[FAIL] GET CHAT LIST", e);
     return undefined;

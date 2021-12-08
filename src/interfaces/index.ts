@@ -1,16 +1,11 @@
 export interface ChatDataProps {
   id: number;
-  user: string;
+  context: string;
+  name: string;
   online: boolean;
-  last_message: {
-    id: number;
-    context: string;
-    time: string;
-    state: boolean;
-    is_rendezvous: boolean;
-    rendezvous_place: number;
-    rendezvous_time: number;
-  };
+  room_id: number;
+  time: string;
+  type: number;
 }
 
 export interface UserDataProps {
