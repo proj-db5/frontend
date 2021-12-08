@@ -73,10 +73,10 @@ const MyPage = () => {
             })
           }
         >
-          <option value="1">공학관</option>
-          <option value="2">백양관</option>
-          <option value="3">학생회관</option>
-          <option value="4">신촌역</option>
+          <option value="0">공학관</option>
+          <option value="1">백양관</option>
+          <option value="2">학생회관</option>
+          <option value="3">신촌역</option>
         </Select>
 
         <BtnWrap>
