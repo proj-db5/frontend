@@ -3,7 +3,7 @@ import client from "./client";
 
 const Signout = async ( ) => {
   try {
-    const res = await client.patch("/user/signout");
+    const res = await client.delete("/user/signout");
     console.log("[SUCCESS] SIGN OUT", res.data);
     return res.data;
   } catch (e) {
