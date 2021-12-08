@@ -7,9 +7,18 @@ export interface TalkProps {
   type: string;
   isFriend: boolean;
   onClickFriendBtn: () => void;
-  onClickRendezvous: () => void;
+  onClickSendNormal: (message: string) => void;
+  onClickSendRendezvous: () => void;
+  messages: {
+    text: string;
+    time: string;
+    myMessage: boolean,
+    isRendezvous: boolean,
+  }[];
 }
-const Talk = ({ name, type, isFriend, onClickFriendBtn }: TalkProps) => {
+
+const Talk = ({ name, type, isFriend, onClickFriendBtn, onClickSendNormal, messages }: TalkProps) => {
+  const [messageInput, setMessageInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState(30);
 
@@ -23,37 +32,43 @@ const Talk = ({ name, type, isFriend, onClickFriendBtn }: TalkProps) => {
           onClickBtn={onClickFriendBtn}
         />
         <BubbleContainer>
-          <MyBubble
-            isRendezvous={false}
-            text="테슬라 모델 Y 좋네요..."
-            time="오후 2:22"
-          />
-          <Bubble
-            text="이번에 스팩 보셨어요? 연비 장난아니던데"
-            time="오후 2:22"
-          />
-          <Bubble
-            text="이번에 스팩 보셨어요? 연비 장난아니던데"
-            time="오후 2:22"
-          />
-          <MyBubble
-            isRendezvous
-            text="테슬라 모델 Y 좋네요..."
-            time="오후 2:22"
-          />
+          {
+            messages.map((message) => (
+              message.myMessage ?
+                <MyBubble
+                  key={`message-${message.time}`}
+                  isRendezvous={message.isRendezvous}
+                  text={message.text}
+                  time={message.time}
+                /> :
+                <Bubble
+                  key={`message-${message.time}`}
+                  text={message.text}
+                  time={message.time}
+                />
+            ))
+          }
         </BubbleContainer>
         <Bottom>
-          <input className="text_input" placeholder="메세지 보내기..." />
-          <button className="bottom_btn" type="button">
-            일반
-          </button>
-          <button
-            className="bottom_btn"
+          <input
+            className="text_input"
+            placeholder="메세지 보내기..."
+            onChange={(e) => setMessageInput(e.currentTarget.value)}
+          />
+          <BottomButton
             type="button"
+            isActive={messageInput.length !== 0}
+            onClick={() => onClickSendNormal(messageInput)}
+          >
+            일반
+          </BottomButton>
+          <BottomButton
+            type="button"
+            isActive={messageInput.length !== 0}
             onClick={() => setIsOpen(true)}
           >
             랑데뷰
-          </button>
+          </BottomButton>
         </Bottom>
       </Container>
       <Modal
@@ -115,19 +130,19 @@ const Bottom = styled.div`
       color: var(--gray_5);
     }
   }
+`;
 
-  .bottom_btn {
-    cursor: pointer;
-    height: 40px;
-    padding: 10px 8px;
-    margin-left: 5px;
-    background: var(--gray_3);
-    border: 2px solid var(--gray_2);
-    box-sizing: border-box;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 17px;
-    color: var(--white);
-  }
+const BottomButton = styled.button<{ isActive: boolean }>`
+  cursor: pointer;
+  height: 40px;
+  padding: 10px 8px;
+  margin-left: 5px;
+  background: var(${props => props.isActive ? '--skyblue_3' : '--gray_3'});
+  border: 2px solid var(--gray_2);
+  box-sizing: border-box;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--white);
 `;
