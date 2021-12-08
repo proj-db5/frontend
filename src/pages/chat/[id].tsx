@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 import { useContext, useEffect, useState } from "react";
-import { add, formatISO, isBefore, parseISO } from "date-fns";
+import { add, formatISO, parseISO } from "date-fns";
 import useSWR from "swr";
 import { ChatMessageData, ChatMessageResponse, EmptyResponse, UserResponse } from "../../libs/api/response";
 import { requestGet, requestPost } from "../../libs/api/client";
@@ -31,7 +31,14 @@ const Chat = ({ opponentId }: ChatProps) => {
         time: data.time,
         sender_id: data.from_id,
         is_rendezvous: data.is_rendezvous,
+        state: true,
       });
+    });
+
+    socket.on("READ_MESSAGE", (data) => {
+      if (data.read_id === opponentId) {
+        setLiveMessages((prev) => prev.map((m) => ({ ...m, state: true })));
+      }
     });
   }, [me]);
 
@@ -40,12 +47,18 @@ const Chat = ({ opponentId }: ChatProps) => {
       return;
     }
 
-    await requestPost<EmptyResponse>(`/chat/${opponentId}`, { context: text });
+    const result = await requestPost<EmptyResponse>(`/chat/${opponentId}`, { context: text });
+    if (result.status !== 200) {
+      alert(result.message);
+      return;
+    }
+
     appendMessage({
       context: text,
       time: formatISO(new Date()),
       sender_id: me.id,
       is_rendezvous: false,
+      state: false,
     });
   };
 
@@ -54,10 +67,15 @@ const Chat = ({ opponentId }: ChatProps) => {
       return;
     }
 
-    await requestPost<EmptyResponse>(`/chat/rendezvous/${opponentId}`, {
+    const result = await requestPost<EmptyResponse>(`/chat/rendezvous/${opponentId}`, {
       context: text,
       rendezvous_time: minutes,
     });
+    if (result.status !== 200) {
+      alert(result.message);
+      return;
+    }
+
     appendMessage(({
       context: text,
       time: formatISO(new Date()),
@@ -65,6 +83,7 @@ const Chat = ({ opponentId }: ChatProps) => {
       is_rendezvous: true,
       expired_time: formatISO(add(new Date(), { minutes })),
       rendezvous_place: me.place,
+      state: false,
     }));
   };
 
@@ -91,7 +110,8 @@ const Chat = ({ opponentId }: ChatProps) => {
             isRendezvous: m.is_rendezvous,
             expireTime: m.expired_time ? parseISO(m.expired_time) : null,
             location: m.rendezvous_place || null,
-          })).filter((m) => !m.expireTime || isBefore(new Date(), m.expireTime))}
+            read: m.state,
+          }))}
     />
   );
 };

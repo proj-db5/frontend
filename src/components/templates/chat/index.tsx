@@ -18,6 +18,7 @@ export interface TalkProps {
     isRendezvous: boolean,
     expireTime: Date | null,
     location: number | null,
+    read: boolean,
   }[];
 }
 
@@ -52,6 +53,7 @@ const Talk = ({
                   isRendezvous={message.isRendezvous}
                   text={message.text}
                   time={format(message.time, "aa hh:mm")}
+                  read={message.read}
                   delTime={message.isRendezvous ? format(message.expireTime as Date, "aa hh:mm") : undefined}
                   location={message.isRendezvous ? LocationType(message.location as number) : undefined}
                 /> :
@@ -59,6 +61,7 @@ const Talk = ({
                   key={`message-${message.time}`}
                   text={message.text}
                   time={format(message.time, "aa hh:mm")}
+                  read={message.read}
                 />
             ))
           }
