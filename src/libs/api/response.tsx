@@ -7,6 +7,7 @@ export type UserResponse = EmptyResponse & {
   id: string;
   name: string;
   type: number;
+  place: number;
 }
 
 export type ChatMessageData = {
@@ -14,6 +15,8 @@ export type ChatMessageData = {
   time: string;
   sender_id: string;
   is_rendezvous: boolean;
+  expired_time?: string;
+  rendezvous_place?: number;
 }
 
 export type ChatMessageResponse = EmptyResponse & {
