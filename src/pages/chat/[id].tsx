@@ -1,5 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useContext, useEffect, useState } from "react";
+import { add, formatISO, isBefore, parseISO } from "date-fns";
 import { ChatMessageData, ChatMessageResponse, EmptyResponse, UserResponse } from "../../libs/api/response";
 import { requestGet, requestPost } from "../../libs/api/client";
 import Talk from "../../components/templates/chat";
@@ -17,6 +18,7 @@ const Chat = ({ me, opponent, messages }: ChatProps) => {
   const [liveMessages, setLiveMessages] = useState<ChatMessageData[]>(messages.data);
 
   useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
     socket.on("RESPONSE_MESSAGE", (data) => {
       appendMessage({
         context: data.context,
@@ -31,10 +33,25 @@ const Chat = ({ me, opponent, messages }: ChatProps) => {
     await requestPost<EmptyResponse>(`/chat/${opponent.id}`, { context: text });
     appendMessage({
       context: text,
-      time: new Date().toISOString().slice(0, 19).replace('T', ' '),
+      time: formatISO(new Date()),
       sender_id: me.id,
       is_rendezvous: false,
     });
+  };
+
+  const sendRendezvous = async (text: string, minutes: number) => {
+    await requestPost<EmptyResponse>(`/chat/rendezvous/${opponent.id}`, {
+      context: text,
+      rendezvous_time: minutes,
+    });
+    appendMessage(({
+      context: text,
+      time: formatISO(new Date()),
+      sender_id: me.id,
+      is_rendezvous: true,
+      expired_time: formatISO(add(new Date(), { minutes })),
+      rendezvous_place: me.place,
+    }));
   };
 
   const appendMessage = (message: ChatMessageData) => {
@@ -49,14 +66,15 @@ const Chat = ({ me, opponent, messages }: ChatProps) => {
           onClickFriendBtn={() => {
           }}
           onClickSendNormal={sendNormal}
-          onClickSendRendezvous={() => {
-          }}
+          onClickSendRendezvous={sendRendezvous}
           messages={liveMessages.map((m) => ({
             text: m.context,
-            time: m.time,
+            time: parseISO(m.time),
             myMessage: m.sender_id !== opponent.id,
             isRendezvous: m.is_rendezvous,
-          }))}
+            expireTime: m.expired_time ? parseISO(m.expired_time) : null,
+            location: m.rendezvous_place || null,
+          })).filter((m) => !m.expireTime || isBefore(new Date(), m.expireTime))}
     />
   );
 };

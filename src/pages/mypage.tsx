@@ -10,7 +10,7 @@ import states from "src/modules";
 const MyPage = () => {
   const [data, setData] = useState({
     state_message: "",
-    place: 0,
+    place: 1,
   });
   const setLocation = useSetRecoilState(states.LocationState);
 
@@ -41,9 +41,9 @@ const MyPage = () => {
       const res = await getApi.getFriendUsers("/friend/list");
       setData({
         state_message: res?.userData[0]?.state_message || "",
-        place: res?.userData[0]?.place || 0,
+        place: res?.userData[0]?.place || 1,
       });
-      setLocation(res?.userData[0]?.place || 0);
+      setLocation(res?.userData[0]?.place || 1);
     };
     getUserData();
   }, []);
@@ -73,10 +73,10 @@ const MyPage = () => {
             })
           }
         >
-          <option value="0">공학관</option>
-          <option value="1">백양관</option>
-          <option value="2">학생회관</option>
-          <option value="3">신촌역</option>
+          <option value="1">공학관</option>
+          <option value="2">백양관</option>
+          <option value="3">학생회관</option>
+          <option value="4">신촌역</option>
         </Select>
 
         <BtnWrap>

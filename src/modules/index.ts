@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 const LocationState = atom<number>({
   key: "LocationState",
-  default: 0,
+  default: 1,
 });
 
 const states = {

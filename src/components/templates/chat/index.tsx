@@ -1,23 +1,35 @@
 import { useState } from "react";
 import { Bubble, Header, Modal, MyBubble } from "src/components/chat";
 import styled from "styled-components";
+import { format } from "date-fns";
+import LocationType from "../../../libs/LocationType";
 
 export interface TalkProps {
   name: string;
   type: string;
   isFriend: boolean;
   onClickFriendBtn: () => void;
-  onClickSendNormal: (message: string) => void;
-  onClickSendRendezvous: () => void;
+  onClickSendNormal: (text: string) => void;
+  onClickSendRendezvous: (text: string, minutes: number) => void;
   messages: {
     text: string;
-    time: string;
+    time: Date;
     myMessage: boolean,
     isRendezvous: boolean,
+    expireTime: Date | null,
+    location: number | null,
   }[];
 }
 
-const Talk = ({ name, type, isFriend, onClickFriendBtn, onClickSendNormal, messages }: TalkProps) => {
+const Talk = ({
+                name,
+                type,
+                isFriend,
+                onClickFriendBtn,
+                onClickSendNormal,
+                onClickSendRendezvous,
+                messages,
+              }: TalkProps) => {
   const [messageInput, setMessageInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState(30);
@@ -36,15 +48,17 @@ const Talk = ({ name, type, isFriend, onClickFriendBtn, onClickSendNormal, messa
             messages.map((message) => (
               message.myMessage ?
                 <MyBubble
-                  key={`message-${message.time}`}
+                  key={`message-${message.time.toISOString()}`}
                   isRendezvous={message.isRendezvous}
                   text={message.text}
-                  time={message.time}
+                  time={format(message.time, "aa hh:mm")}
+                  delTime={message.isRendezvous ? format(message.expireTime as Date, "aa hh:mm") : undefined}
+                  location={message.isRendezvous ? LocationType(message.location as number) : undefined}
                 /> :
                 <Bubble
                   key={`message-${message.time}`}
                   text={message.text}
-                  time={message.time}
+                  time={format(message.time, "aa hh:mm")}
                 />
             ))
           }
@@ -76,7 +90,10 @@ const Talk = ({ name, type, isFriend, onClickFriendBtn, onClickSendNormal, messa
         setIsOpen={setIsOpen}
         time={time}
         setTime={setTime}
-        onClickBtn={() => "랑데뷰전송"}
+        onClickBtn={() => {
+          onClickSendRendezvous(messageInput, time);
+          setIsOpen(false);
+        }}
       />
     </>
   );
@@ -123,6 +140,7 @@ const Bottom = styled.div`
     font-size: 14px;
     line-height: 20px;
     color: var(--black_1);
+
     &::placeholer {
       font-weight: 500;
       font-size: 14px;
@@ -137,7 +155,7 @@ const BottomButton = styled.button<{ isActive: boolean }>`
   height: 40px;
   padding: 10px 8px;
   margin-left: 5px;
-  background: var(${props => props.isActive ? '--skyblue_3' : '--gray_3'});
+  background: var(${props => props.isActive ? "--skyblue_3" : "--gray_3"});
   border: 2px solid var(--gray_2);
   box-sizing: border-box;
   border-radius: 8px;
