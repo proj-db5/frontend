@@ -3,8 +3,10 @@ import styled from "styled-components";
 export interface BubbleProps {
   text: string;
   time: string;
+  read: boolean;
 }
-const Bubble = ({ text, time }: BubbleProps) => {
+
+const Bubble = ({ text, time, read }: BubbleProps) => {
   return (
     <Container>
       <img
@@ -13,7 +15,7 @@ const Bubble = ({ text, time }: BubbleProps) => {
         src="https://cdn.pixabay.com/photo/2019/08/01/12/36/illustration-4377408_960_720.png"
       />
       <BubbleInnerWrap>{text}</BubbleInnerWrap>
-      <span className="time">{time}</span>
+      <span className="time">{time}, {read ? "읽음" : "읽지 않음"}</span>
     </Container>
   );
 };

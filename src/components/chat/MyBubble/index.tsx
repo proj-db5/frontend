@@ -4,6 +4,7 @@ export interface MyBubbleProps {
   isRendezvous: boolean;
   text: string;
   time: string;
+  read: boolean;
   location?: string;
   delTime?: string;
 }
@@ -11,13 +12,14 @@ const MyBubble = ({
   isRendezvous,
   text,
   time,
+  read,
   location,
   delTime,
 }: MyBubbleProps) => {
   return (
     <Container>
       <BubbleWrap>
-        <span className="time">{time}</span>
+        <span className="time">{time}, {read ? "읽음" : "읽지 않음"}</span>
         <BubbleInnerWrap isRendezvous={isRendezvous}>{text}</BubbleInnerWrap>
       </BubbleWrap>
       {delTime && (

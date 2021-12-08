@@ -17,6 +17,7 @@ module.exports = {
 
     config.plugins.push(
       new webpack.DefinePlugin({
+        SOCKET_HOST: JSON.stringify(process.env.SOCKET_HOST),
         API_DOMAIN: JSON.stringify(process.env.API_DOMAIN)
       }),
       new webpack.EnvironmentPlugin(["NODE_ENV"]),
@@ -26,8 +27,7 @@ module.exports = {
   },
 
   env: {
-    serverHost: process.env.SERVER_HOST || 'http://127.0.0.1:3000',
-    socketHost: process.env.SOCKET_HOST || 'http://127.0.0.1:4000',
+    SOCKET_HOST: process.env.SOCKET_HOST,
     API_DOMAIN: process.env.API_DOMAIN,
   },
 };

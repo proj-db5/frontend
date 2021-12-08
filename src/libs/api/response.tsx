@@ -17,6 +17,7 @@ export type ChatMessageData = {
   is_rendezvous: boolean;
   expired_time?: string;
   rendezvous_place?: number;
+  state: boolean;
 }
 
 export type ChatMessageResponse = EmptyResponse & {
