@@ -61,6 +61,7 @@ const MyPage = () => {
               state_message: e.target.value,
             })
           }
+          maxLength={20}
         />
 
         <P1>회원 유형을 선택해주세요</P1>
