@@ -60,11 +60,23 @@ const getChatList = async (
   }
 };
 
+const getAddFriend = async (id: string) => {
+  try {
+    const res = await client.get(`/friend/add/${id}`);
+    console.log("[SUCCESS] GET ADD FRIEND", res.data.data);
+    return res.data.data;
+  } catch (e) {
+    console.log("[FAIL] GET ADD FRIEND", e);
+    return undefined;
+  }
+};
+
 const getApi = {
   getNearUsers,
   getFriendUsers,
   getSearchedUsers,
   getChatList,
+  getAddFriend,
 };
 
 export default getApi;
