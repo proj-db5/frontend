@@ -17,10 +17,10 @@ const ChatProfile = ({ data }: ChatProfileProps) => {
       </div>
       <ProfileInfo>
         <div className="info">
-          <p className="info__name">{data.user}</p>
-          <p className="info__time">{data.last_message.time}</p>
+          <p className="info__name">{data.name}</p>
+          <p className="info__time">{data.time}</p>
         </div>
-        <ProfileMessage>{data.last_message.context}</ProfileMessage>
+        <ProfileMessage>{data.context}</ProfileMessage>
       </ProfileInfo>
       <ProfileAction
         state={data.online}
@@ -46,11 +46,10 @@ const ProfileInfo = styled.div`
   flex-grow: 1;
   .info {
     display: flex;
-    flex-direction: row;
-    align-items: baseline;
+    flex-direction: column;
+    padding: 6px 16px;
     &__name {
       margin: 0;
-      padding: 6px 16px;
       font-weight: bold;
       font-size: 17px;
       line-height: 25px;
