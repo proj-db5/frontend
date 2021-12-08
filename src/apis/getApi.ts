@@ -39,8 +39,8 @@ const getSearchedUsers = async (
 ): Promise<UserDataProps[] | undefined> => {
   try {
     const res = await client.get(url);
-    console.log("[SUCCESS] GET SEARCHED USERS", res.data.data.users);
-    return res.data.data.users;
+    console.log("[SUCCESS] GET SEARCHED USERS", res.data.data);
+    return res.data.data;
   } catch (e) {
     console.log("[FAIL] GET SEARCHED USERS", e);
     return undefined;

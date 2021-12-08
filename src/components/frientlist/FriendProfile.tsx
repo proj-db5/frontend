@@ -6,8 +6,19 @@ import { useRouter } from "next/router";
 interface FriendProfileProps {
   data: UserDataProps;
   isUser?: boolean;
+  isSearch?: boolean;
+  isFriend?: 0 | 1;
+  handleAddFriend?: (id: string) => Promise<void>;
+  handleRemoveFriend?: (id: string) => Promise<void>;
 }
-export const FriendProfile = ({ data, isUser = false }: FriendProfileProps) => {
+export const FriendProfile = ({
+  data,
+  isUser = false,
+  isSearch = false,
+  isFriend = 0,
+  handleAddFriend,
+  handleRemoveFriend,
+}: FriendProfileProps) => {
   const router = useRouter();
   return (
     <Wrapper>
@@ -23,16 +34,29 @@ export const FriendProfile = ({ data, isUser = false }: FriendProfileProps) => {
         </ProfileName>
         <ProfileMessage>{data.state_message}</ProfileMessage>
       </ProfileInfo>
-      <ProfileAction
-        state={data.online}
-        onClick={
-          isUser
-            ? () => router.push("/mypage")
-            : () => router.push(`/chat/${data.id}`)
-        }
-      >
-        {isUser ? "편집" : "채팅"}
-      </ProfileAction>
+      {isSearch ? (
+        <ProfileAction
+          state={!data.isFriend}
+          onClick={
+            isFriend
+              ? () => handleRemoveFriend && handleRemoveFriend(data.id)
+              : () => handleAddFriend && handleAddFriend(data.id)
+          }
+        >
+          {isFriend ? "친구삭제" : "친구추가"}
+        </ProfileAction>
+      ) : (
+        <ProfileAction
+          state={data.online}
+          onClick={
+            isUser
+              ? () => router.push("/mypage")
+              : () => router.push(`/chat/${data.id}`)
+          }
+        >
+          {isUser ? "편집" : "채팅"}
+        </ProfileAction>
+      )}
     </Wrapper>
   );
 };

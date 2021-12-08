@@ -9,22 +9,38 @@ import { useState } from "react";
 interface SearchProps {
   searchList: UserDataProps[];
   handleSearch: (e: string) => Promise<void>;
+  handleAddFriend?: (id: string) => Promise<void>;
+  handleRemoveFriend?: (id: string) => Promise<void>;
+  initData?: () => void;
 }
-const Search = ({ searchList, handleSearch }: SearchProps) => {
+const Search = ({
+  searchList,
+  handleSearch,
+  handleAddFriend,
+  handleRemoveFriend,
+  initData,
+}: SearchProps) => {
   const [value, setValue] = useState("");
 
   return (
-    <Container page={NavigationPage.SEARCH}>
+    <Container page={NavigationPage.SEARCH} initData={initData}>
       <Input
         placeholder="id 또는 이름을 입력해주세요"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && handleSearch(value)}
+        onKeyPress={(e) => e.key === "Enter" && handleSearch(value)}
       />
       <div style={{ height: "30px" }} />
       <ContentDivider text="검색 결과" />
       {searchList.map((sl) => (
-        <FriendProfile key={sl.id} data={sl} />
+        <FriendProfile
+          key={sl.id}
+          data={sl}
+          isSearch
+          isFriend={sl.isFriend}
+          handleAddFriend={handleAddFriend}
+          handleRemoveFriend={handleRemoveFriend}
+        />
       ))}
     </Container>
   );

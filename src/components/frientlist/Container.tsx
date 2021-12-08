@@ -9,7 +9,12 @@ export const Container = ({
   children,
   page,
   location = 0,
-}: ScriptProps & { page: NavigationPage; location?: number }) => {
+  initData,
+}: ScriptProps & {
+  page: NavigationPage;
+  location?: number;
+  initData?: () => void;
+}) => {
   const router = useRouter();
 
   const title = {
@@ -25,7 +30,12 @@ export const Container = ({
       <div style={{ width: "100%" }}>
         <Title>
           {title.includes("검색") ? (
-            <BackIcon onClick={() => router.back()} />
+            <BackIcon
+              onClick={() => {
+                initData && initData();
+                router.back();
+              }}
+            />
           ) : (
             <div />
           )}
