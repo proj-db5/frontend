@@ -10,7 +10,10 @@ const ChatProfile = ({ data }: ChatProfileProps) => {
   return (
     <Wrapper>
       <div>
-        <ProfileImage src="https://placekitten.com/50/50" alt="프로필 사진" />
+        <ProfileImage
+          src="https://research.yonsei.ac.kr/_res/research/img/info/img-symbol01-pop.jpg"
+          alt="프로필 사진"
+        />
       </div>
       <ProfileInfo>
         <div className="info">

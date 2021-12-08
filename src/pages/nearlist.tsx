@@ -1,33 +1,24 @@
 import type { NextPage } from "next";
-import { NavigationPage } from "../components/Navigation";
-import { Container } from "../components/common/Container";
-import { ContentDivider } from "../components/common/ContentDivider";
-import { FriendProfile } from "../components/frientlist/FriendProfile";
-import { Content } from "src/components/common/Content";
+import useSWR from "swr";
+import { getApi } from "src/apis";
+import NearList from "src/components/templates/nearlist";
+import { useRecoilValue } from "recoil";
+import states from "src/modules";
 
-const NearList: NextPage = () => {
+const NearListPage: NextPage = () => {
+  const location = useRecoilValue(states.LocationState);
+  const { data: UserList } = useSWR(
+    `/environ/${location}`,
+    getApi.getNearUsers,
+  );
+
   return (
-    <Container page={NavigationPage.NEARBY}>
-      <Content>
-      <ContentDivider text="근처 접속 중인 사용자" />
-      <FriendProfile data={mock_data} />
-
-      <ContentDivider text="근처 미접속 중인 사용자" addMargin />
-      <FriendProfile data={mock_data} />
-      </Content>
-    </Container>
+    <NearList
+      location={location}
+      onlineList={UserList?.filter((ul) => ul.online === true) || []}
+      offlineList={UserList?.filter((ul) => ul.online !== true) || []}
+    />
   );
 };
 
-export default NearList;
-
-const mock_data = {
-  id: "asdfasd",
-  name: "adsfsfd",
-  type: 2,
-  place: 1,
-  state_message: "asdf",
-  online: true,
-};
-
-
+export default NearListPage;

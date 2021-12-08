@@ -1,42 +1,52 @@
 import { useRouter } from "next/router";
 import { ScriptProps } from "next/script";
 import { BackIcon, SearchIcon } from "src/assets/common";
+import { LocationType } from "src/libs";
 import styled from "styled-components";
 import { Navigation, NavigationPage } from "../Navigation";
 
 export const Container = ({
   children,
   page,
-}: ScriptProps & { page: NavigationPage }) => {
+  location = 0,
+  initData,
+}: ScriptProps & {
+  page: NavigationPage;
+  location?: number;
+  initData?: () => void;
+}) => {
+  const router = useRouter();
+
   const title = {
-    [NavigationPage.NEARBY]: "내 주변",
+    [NavigationPage.NEARBY]: `내 주변(${LocationType(location)})`,
     [NavigationPage.FRIENDS]: "친구 목록",
     [NavigationPage.CHATS]: "대화",
     [NavigationPage.MYPAGE]: "마이페이지",
     [NavigationPage.SEARCH]: "친구 검색",
   }[page];
-  const router = useRouter();
 
   return (
     <Wrapper>
       <div style={{ width: "100%" }}>
         <Title>
           {title.includes("검색") ? (
-            <BackIcon className="back_icon" onClick={() => router.back()} />
+            <BackIcon
+              onClick={() => {
+                initData && initData();
+                router.back();
+              }}
+            />
           ) : (
             <div />
           )}
           {title}
           {title.includes("목록") ? (
-            <SearchIcon
-              className="search_icon"
-              onClick={() => router.push("/search")}
-            />
+            <SearchIcon onClick={() => router.push("/search")} />
           ) : (
             <div />
           )}
         </Title>
-        {children}
+        <Content>{children}</Content>
       </div>
       <Navigation currentPage={page} />
     </Wrapper>
@@ -61,7 +71,6 @@ const Title = styled.p`
 
   font-weight: bold;
   font-size: 20px;
-  text-align: center;
   color: var(--white);
 
   display: flex;
@@ -70,17 +79,8 @@ const Title = styled.p`
   justify-content: space-between;
 
   ${({ theme }) => theme.media.pc`
-    padding: 48px 40px;
+    padding: 48px 0;
     font-size: 30px;
-
-    .back_icon {
-      width: 40px;
-      height: 40px;
-    }
-    .search_icon {
-      width: 40px;
-      height: 40px;
-    }
   `}
 `;
 

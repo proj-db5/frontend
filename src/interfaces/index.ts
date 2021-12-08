@@ -20,4 +20,5 @@ export interface UserDataProps {
   place: number;
   state_message?: string;
   online: boolean;
+  isFriend?: 0 | 1;
 }
