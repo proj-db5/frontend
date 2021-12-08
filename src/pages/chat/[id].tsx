@@ -1,6 +1,7 @@
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { GetServerSidePropsContext } from "next";
 import { useContext, useEffect, useState } from "react";
 import { add, formatISO, isBefore, parseISO } from "date-fns";
+import useSWR from "swr";
 import { ChatMessageData, ChatMessageResponse, EmptyResponse, UserResponse } from "../../libs/api/response";
 import { requestGet, requestPost } from "../../libs/api/client";
 import Talk from "../../components/templates/chat";
@@ -8,17 +9,22 @@ import { UserType } from "../../libs";
 import { socketContext } from "../../contexts/socket";
 
 interface ChatProps {
-  me: UserResponse,
-  opponent: UserResponse,
-  messages: ChatMessageResponse,
+  opponentId: string,
 }
 
-const Chat = ({ me, opponent, messages }: ChatProps) => {
+const Chat = ({ opponentId }: ChatProps) => {
   const socket = useContext(socketContext);
-  const [liveMessages, setLiveMessages] = useState<ChatMessageData[]>(messages.data);
+  const [liveMessages, setLiveMessages] = useState<ChatMessageData[]>([]);
+
+  const { data: me } = useSWR("/user/whoAmI", () => requestGet<UserResponse>("/user/whoAmI"));
+  const { data: opponent } = useSWR(`/user/${opponentId}`, () => requestGet<UserResponse>(`/user/${opponentId}`));
 
   useEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight);
+    requestGet<ChatMessageResponse>(`/chat/chatData/${opponentId}`).then((res) => {
+      setLiveMessages(res.data);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+
     socket.on("RESPONSE_MESSAGE", (data) => {
       appendMessage({
         context: data.context,
@@ -27,10 +33,14 @@ const Chat = ({ me, opponent, messages }: ChatProps) => {
         is_rendezvous: data.is_rendezvous,
       });
     });
-  });
+  }, [me]);
 
   const sendNormal = async (text: string) => {
-    await requestPost<EmptyResponse>(`/chat/${opponent.id}`, { context: text });
+    if (!me) {
+      return;
+    }
+
+    await requestPost<EmptyResponse>(`/chat/${opponentId}`, { context: text });
     appendMessage({
       context: text,
       time: formatISO(new Date()),
@@ -40,14 +50,18 @@ const Chat = ({ me, opponent, messages }: ChatProps) => {
   };
 
   const sendRendezvous = async (text: string, minutes: number) => {
-    await requestPost<EmptyResponse>(`/chat/rendezvous/${opponent.id}`, {
+    if (!me) {
+      return;
+    }
+
+    await requestPost<EmptyResponse>(`/chat/rendezvous/${opponentId}`, {
       context: text,
       rendezvous_time: minutes,
     });
     appendMessage(({
       context: text,
       time: formatISO(new Date()),
-      sender_id: me.id,
+      sender_id: me.id || "",
       is_rendezvous: true,
       expired_time: formatISO(add(new Date(), { minutes })),
       rendezvous_place: me.place,
@@ -59,6 +73,9 @@ const Chat = ({ me, opponent, messages }: ChatProps) => {
     window.scrollTo(0, document.body.scrollHeight);
   };
 
+  if (!opponent) {
+    return <></>;
+  }
   return (
     <Talk name={opponent.name}
           type={UserType(opponent.type)}
@@ -79,18 +96,16 @@ const Chat = ({ me, opponent, messages }: ChatProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<ChatProps> = async ({ params, req }: GetServerSidePropsContext) => {
+export const getServerSideProps = async ({ params }: GetServerSidePropsContext) => {
   if (!params) {
     return { notFound: true };
   }
 
   const opponentId = params.id;
-  const { cookie } = req.headers;
   return {
+    notFound: false,
     props: {
-      me: await requestGet<UserResponse>(`/user/whoAmI`, cookie),
-      opponent: await requestGet<UserResponse>(`/user/${opponentId}`, cookie),
-      messages: await requestGet<ChatMessageResponse>(`/chat/chatData/${opponentId}`, cookie),
+      opponentId,
     },
   };
 };
