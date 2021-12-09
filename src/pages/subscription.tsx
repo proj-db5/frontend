@@ -193,16 +193,6 @@ const P1 = styled.p`
   text-align: left;
   color: #ffffff;
 `;
-const P2 = styled.p`
-  padding: 0px 20px;
-  margin: 0;
-  margin-top: 5px;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 17px;
-
-  color: #ffffff;
-`;
 
 const Title = styled.p`
   padding: 35px 0;
