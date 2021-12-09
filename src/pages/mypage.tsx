@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { Container } from "src/components/common/Container";
 import router from "next/router";
 import { useEffect, useState } from "react";
-import { getApi, patchApi, logoutpatchApi, signout } from "src/apis";
+import { getApi, patchApi } from "src/apis";
 import { useSetRecoilState } from "recoil";
 import states from "src/modules";
+import logoutpatchApi from "../apis/logoutpatchApi";
+import signout from "../apis/signout";
 
 const MyPage = () => {
   const [data, setData] = useState({
@@ -15,7 +17,10 @@ const MyPage = () => {
   const setLocation = useSetRecoilState(states.LocationState);
 
   const handleEdit = async (postData: { msg: string; location: number }) => {
-    const res = await patchApi.patchEditMypage(postData);
+    const res = await patchApi.patchEditMypage({
+      state_message: postData.msg,
+      place: postData.location,
+    });
     if (!res) {
       alert("수정 실패!");
     } else {
@@ -89,15 +94,15 @@ const MyPage = () => {
           <Button2 onClick={() => handleEdit(data)}>변경하기</Button2>
         </BtnWrap>
 
-        <Button1 
-        
-        onClick={() => handleLogout({online: 0})}>          
+        <Button1
+
+          onClick={() => handleLogout({ online: 0 })}>
           로그아웃</Button1>
 
 
-        <Button1 
-        
-        onClick={() => handleSignout()}>  
+        <Button1
+
+          onClick={() => handleSignout()}>
           회원탈퇴</Button1>
 
 
