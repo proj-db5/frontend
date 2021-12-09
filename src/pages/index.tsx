@@ -9,7 +9,7 @@ const HomePage = () => {
   const setLocation = useSetRecoilState(states.LocationState);
   const { data: FriendList } = useSWR(`/friend/list`, getApi.getFriendUsers, {
     onSuccess: (data) => {
-      setLocation(data?.userData.place || 0);
+      setLocation(data?.userData[0].place || 0);
     },
   });
 
@@ -17,7 +17,7 @@ const HomePage = () => {
     <>
       {FriendList?.userData ? (
         <Home
-          userData={FriendList?.userData}
+          userData={FriendList?.userData[0]}
           onlineList={
             FriendList?.friendData?.filter((fl) => fl.online === true) || []
           }

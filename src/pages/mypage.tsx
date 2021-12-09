@@ -51,10 +51,10 @@ const MyPage = () => {
     const getUserData = async () => {
       const res = await getApi.getFriendUsers("/friend/friend/list");
       setData({
-        msg: res?.userData?.state_message || "",
-        location: res?.userData?.place || 0,
+        msg: res?.userData[0]?.state_message || "",
+        location: res?.userData[0]?.place || 0,
       });
-      setLocation(res?.userData?.place || 0);
+      setLocation(res?.userData[0]?.place || 0);
     };
     getUserData();
   }, []);
