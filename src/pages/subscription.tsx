@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { Component, useState } from "react";
+import { useState } from "react";
 import { getApi } from "src/apis";
 import signin from "src/apis/signin";
 import { BackIcon } from "src/assets/common";

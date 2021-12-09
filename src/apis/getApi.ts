@@ -74,6 +74,18 @@ const getID = async (
   }
 };
 
+const getAddFriend = async (
+  id: string,
+): Promise<UserDataProps | undefined> => {
+  try {
+    const res = await client.get(`/friend/add/${id}`);
+    console.log("[SUCCESS] ADD FRIEND");
+    return res.data;
+  } catch (e) {
+    console.log("[FAIL] ADD FRIEND", e);
+    return undefined;
+  }
+};
 
 const getApi = {
   getNearUsers,
@@ -81,6 +93,7 @@ const getApi = {
   getSearchedUsers,
   getChatList,
   getID,
+  getAddFriend,
 };
 
 export default getApi;
