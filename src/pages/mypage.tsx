@@ -3,74 +3,79 @@ import styled from "styled-components";
 import { Container } from "src/components/common/Container";
 import router from "next/router";
 import { useEffect, useState } from "react";
-import { getApi, patchApi } from "src/apis";
+import { getApi, patchApi, logoutpatchApi, signout } from "src/apis";
 import { useSetRecoilState } from "recoil";
 import states from "src/modules";
 
 const MyPage = () => {
   const [data, setData] = useState({
-    state_message: "",
-    place: 1,
+    msg: "",
+    location: 0,
   });
   const setLocation = useSetRecoilState(states.LocationState);
 
-  const handleEdit = async (postData: {
-    state_message: string;
-    place: number;
-  }) => {
+  const handleEdit = async (postData: { msg: string; location: number }) => {
     const res = await patchApi.patchEditMypage(postData);
-    if (res) {
-      setLocation(data.place);
-      alert("수정하였습니다.");
+    if (!res) {
+      alert("수정 실패!");
     } else {
-      alert("수정을 실패하였습니다.");
+      setLocation(data.location);
     }
   };
 
   const handleLogout = async (postData: { online: number }) => {
-    const res = await patchApi.patchLogout(postData);
+    const res = await logoutpatchApi.logoutpatch(postData);
     if (res) {
       router.push("/login");
     } else {
-      alert("로그아웃을 실패하였습니다.");
+      alert("로그아웃 실패!");
     }
   };
 
+  const handleSignout = async () => {
+    const res = await signout.Signout();
+    if (res) {
+      router.push("/login");
+    } else {
+      alert("회원탈퇴 실패!");
+    }
+  };
+
+
   useEffect(() => {
     const getUserData = async () => {
-      const res = await getApi.getFriendUsers("/friend/list");
+      const res = await getApi.getFriendUsers("/friend/friend/list");
       setData({
-        state_message: res?.userData[0]?.state_message || "",
-        place: res?.userData[0]?.place || 1,
+        msg: res?.userData?.state_message || "",
+        location: res?.userData?.place || 0,
       });
-      setLocation(res?.userData[0]?.place || 1);
+      setLocation(res?.userData?.place || 0);
     };
     getUserData();
   }, []);
 
   return (
     <Container page={NavigationPage.MYPAGE}>
-      <InnerWrap>
+      <div style={{ padding: "0 28px" }}>
         <P1>상태 메시지를 입력해주세요</P1>
         <Input
           placeholder="상태 메시지"
-          value={data.state_message}
+          value={data.msg}
           onChange={(e) =>
             setData({
               ...data,
-              state_message: e.target.value,
+              msg: e.target.value,
             })
           }
-          maxLength={20}
         />
 
         <P1>회원 유형을 선택해주세요</P1>
         <Select
-          value={data.place}
+          value={data.location}
           onChange={(e) =>
             setData({
               ...data,
-              place: Number(e.target.value),
+              location: Number(e.target.value),
             })
           }
         >
@@ -84,27 +89,24 @@ const MyPage = () => {
           <Button2 onClick={() => handleEdit(data)}>변경하기</Button2>
         </BtnWrap>
 
-        <Button1 onClick={() => handleLogout({ online: 0 })}>로그아웃</Button1>
+        <Button1 
+        
+        onClick={() => handleLogout({online: 0})}>          
+          로그아웃</Button1>
 
-        <Button1 onClick={() => router.push("/login")}>회원탈퇴</Button1>
-      </InnerWrap>
+
+        <Button1 
+        
+        onClick={() => handleSignout()}>  
+          회원탈퇴</Button1>
+
+
+      </div>
     </Container>
   );
 };
 
 export default MyPage;
-
-const InnerWrap = styled.div`
-  width: 100%;
-  padding: 0 28px;
-  max-width: 600px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const Select = styled.select`
   width: 100%;

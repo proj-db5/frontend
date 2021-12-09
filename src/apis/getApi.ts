@@ -15,7 +15,7 @@ const getNearUsers = async (
 };
 
 interface retGetFriendUsersProps {
-  userData: UserDataProps[];
+  userData: UserDataProps;
   friendData: UserDataProps[];
 }
 const getFriendUsers = async (
@@ -39,8 +39,8 @@ const getSearchedUsers = async (
 ): Promise<UserDataProps[] | undefined> => {
   try {
     const res = await client.get(url);
-    console.log("[SUCCESS] GET SEARCHED USERS", res.data.data);
-    return res.data.data;
+    console.log("[SUCCESS] GET SEARCHED USERS", res.data.data.users);
+    return res.data.data.users;
   } catch (e) {
     console.log("[FAIL] GET SEARCHED USERS", e);
     return undefined;
@@ -52,31 +52,35 @@ const getChatList = async (
 ): Promise<ChatDataProps[] | undefined> => {
   try {
     const res = await client.get(url);
-    console.log("[SUCCESS] GET CHAT LIST", res.data.data);
-    return res.data.data;
+    console.log("[SUCCESS] GET CHAT LIST", res.data.data.room);
+    return res.data.data.room;
   } catch (e) {
     console.log("[FAIL] GET CHAT LIST", e);
     return undefined;
   }
 };
+  
 
-const getAddFriend = async (id: string) => {
+const getID = async (
+  url: string,
+): Promise<UserDataProps | undefined> => {
   try {
-    const res = await client.get(`/friend/add/${id}`);
-    console.log("[SUCCESS] GET ADD FRIEND", res.data.data);
-    return res.data.data;
+    const res = await client.get(url);
+    console.log("ID FOUND (NOT AVAILABLE FOR USE)");
+    return res.data;
   } catch (e) {
-    console.log("[FAIL] GET ADD FRIEND", e);
+    console.log("ID NOT FOUND (AVAILABLE FOR USE)", e);
     return undefined;
   }
 };
+
 
 const getApi = {
   getNearUsers,
   getFriendUsers,
   getSearchedUsers,
   getChatList,
-  getAddFriend,
+  getID,
 };
 
 export default getApi;
