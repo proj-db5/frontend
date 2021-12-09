@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 
 export interface ModalProps {
@@ -11,12 +11,14 @@ export interface ModalProps {
   /** 버튼 클릭 handler */
   onClickBtn?: React.MouseEventHandler<HTMLDialogElement>;
 }
+
 const Modal = ({
   isOpen,
-  setIsOpen,
+  setIsOpen, 
   setTime,
   onClickBtn,
 }: ModalProps) => {
+  const [timeInputOpen, setTimeInputOpen] = useState<boolean>(false);
   const handleKeyDown = (e: any) => {
     e.key === "Escape" && setIsOpen(false);
   };
@@ -36,18 +38,31 @@ const Modal = ({
             onClick={(e) => {
               e.stopPropagation();
               setIsOpen(false);
+              setTimeInputOpen(false);
             }}
           />
           <ModalWrap isOpen={isOpen}>
             <select
               className="select"
-              onBlur={(e) => setTime(Number(e.target.value))}
+              onChange={(e) => {
+                const minutes = Number(e.target.value);
+                console.log(minutes);
+                if (minutes !== -1) {
+                  setTime(minutes);
+                  setTimeInputOpen(false);
+                } else {
+                  setTimeInputOpen(true);
+                }
+              }}
             >
+              <option value="3">3분</option>
               <option value="30">30분</option>
               <option value="60">60분</option>
-              <option value="120">120분</option>
-              <option value="120">120분</option>
+              <option value="-1">직접 입력</option>
             </select>
+            {
+              timeInputOpen ?<TimeInput onChange={(e) => setTime(Number(e.target.value))} type="number" placeholder="분 단위로 입력" /> : null
+            }
             <button className="btn" type="button" onClick={onClickBtn}>
               랑데뷰 전송
             </button>
@@ -124,5 +139,24 @@ const ModalWrap = styled.dialog<ModalWrapProps>`
     text-align: center;
     line-height: 26px;
     color: var(--white);
+  }
+`;
+
+const TimeInput = styled.input`
+  width: 100%;
+  padding: 9px 18px;
+  background: #ffffff;
+  border: 2px solid var(--gray_2);
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--black_1);
+
+  &::placeholer {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--gray_5);
   }
 `;
