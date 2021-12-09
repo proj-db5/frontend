@@ -1,11 +1,13 @@
 import client from "./client";
 
-interface LoginDataProps {
+interface SigninDataProps {
   id: string;
   password: string;
+  name: string;
   type: number;
 }
-const PostSignin = async (data: LoginDataProps) => {
+
+const PostSignin = async (data: SigninDataProps) => {
   try {
     const res = await client.post("/user/signin", data);
     console.log("[SUCCESS] SIGN IN", res.data);
@@ -17,7 +19,7 @@ const PostSignin = async (data: LoginDataProps) => {
 };
 
 const signin = {
-    PostSignin,
+  PostSignin,
 };
 
 export default signin;

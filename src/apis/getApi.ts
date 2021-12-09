@@ -1,4 +1,4 @@
-import { ChatDataProps, UserDataProps } from "src/interfaces";
+import { ChatDataProps, EmptyDataProps, UserDataProps } from "src/interfaces";
 import client from "./client";
 
 const getNearUsers = async (
@@ -63,7 +63,7 @@ const getChatList = async (
 
 const getID = async (
   url: string,
-): Promise<UserDataProps | undefined> => {
+): Promise<EmptyDataProps | undefined> => {
   try {
     const res = await client.get(url);
     console.log("ID FOUND (NOT AVAILABLE FOR USE)");

@@ -17,3 +17,8 @@ export interface UserDataProps {
   online: boolean;
   isFriend?: 0 | 1;
 }
+
+export interface EmptyDataProps {
+  message: string;
+  status: number;
+}
