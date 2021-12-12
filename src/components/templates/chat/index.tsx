@@ -55,7 +55,7 @@ const Talk = ({
                   time={format(message.time, "aa hh:mm")}
                   read={message.read}
                   delTime={message.expireTime || undefined}
-                  location={message.isRendezvous ? LocationType(message.location as number) : undefined}
+                  location={message.location ? LocationType(message.location as number) : undefined}
                 /> :
                 <Bubble
                   key={`message-${message.time}`}
@@ -63,7 +63,7 @@ const Talk = ({
                   time={format(message.time, "aa hh:mm")}
                   read={message.read}
                   delTime={message.expireTime || undefined}
-                  location={message.isRendezvous ? LocationType(message.location as number) : undefined}
+                  location={message.location ? LocationType(message.location as number) : undefined}
                 />
             ))
           }

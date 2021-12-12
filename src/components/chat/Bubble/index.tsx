@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { format, isAfter } from "date-fns";
+import { differenceInMilliseconds, format, isAfter } from "date-fns";
+import { useEffect, useState } from "react";
 
 export interface BubbleProps {
   text: string;
@@ -10,6 +11,16 @@ export interface BubbleProps {
 }
 
 const Bubble = ({ text, time, read, location, delTime }: BubbleProps) => {
+  const [expired, setExpired] = useState<boolean>(!!delTime && isAfter(new Date(), delTime))
+  
+  useEffect(() => {
+    if (delTime && !expired) {
+      setTimeout(() => {
+        setExpired(true);
+      }, differenceInMilliseconds(delTime, new Date()));
+    }
+  });
+  
   return (
     <Wrapper>
       <Container>
@@ -18,9 +29,7 @@ const Bubble = ({ text, time, read, location, delTime }: BubbleProps) => {
           className="profile_img"
           src="https://cdn.pixabay.com/photo/2019/08/01/12/36/illustration-4377408_960_720.png"
         />
-        <BubbleInnerWrap>
-          {!delTime || isAfter(delTime, new Date()) ? text : "(삭제됨)"}
-        </BubbleInnerWrap>
+        <BubbleInnerWrap>{expired ? "(시간이 만료된 랑데부 메시지입니다)" : text}</BubbleInnerWrap>
         <span className="time">{time}, {read ? "읽음" : "읽지 않음"}</span>
       </Container>
       {delTime && (

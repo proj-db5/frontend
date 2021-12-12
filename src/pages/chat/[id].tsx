@@ -39,6 +39,8 @@ const Chat = ({ opponentId }: ChatProps) => {
           sender_id: data.from_id,
           is_rendezvous: data.is_rendezvous,
           state: true,
+          rendezvous_place: data.rendezvous_place,
+          expired_time: data.expired_time,
         });
       });
     }
