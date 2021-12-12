@@ -46,7 +46,7 @@ export const Container = ({
             <div />
           )}
         </Title>
-        <Content>{children}</Content>
+        {children}
       </div>
       <Navigation currentPage={page} />
     </Wrapper>
@@ -79,7 +79,7 @@ const Title = styled.p`
   justify-content: space-between;
 
   ${({ theme }) => theme.media.pc`
-    padding: 48px 0;
+    padding: 48px 40px;
     font-size: 30px;
   `}
 `;
