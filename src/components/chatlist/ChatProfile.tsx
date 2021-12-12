@@ -23,7 +23,7 @@ const ChatProfile = ({ data }: ChatProfileProps) => {
         <ProfileMessage>{data.context}</ProfileMessage>
       </ProfileInfo>
       <ProfileAction
-        state={data.online}
+        state={data.online === 1}
         onClick={() => router.push(`/chat/${data.id}`)}
       >
         <span>채팅</span>

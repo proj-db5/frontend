@@ -15,8 +15,8 @@ const NearListPage: NextPage = () => {
   return (
     <NearList
       location={location}
-      onlineList={UserList?.filter((ul) => ul.online === true) || []}
-      offlineList={UserList?.filter((ul) => ul.online !== true) || []}
+      onlineList={UserList?.filter((ul) => ul.online === 1) || []}
+      offlineList={UserList?.filter((ul) => ul.online !== 1) || []}
     />
   );
 };
