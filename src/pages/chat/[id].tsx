@@ -132,7 +132,7 @@ const Chat = ({ opponentId }: ChatProps) => {
             myMessage: m.sender_id !== opponent.id,
             isRendezvous: m.is_rendezvous,
             expireTime: m.expired_time ? parseISO(m.expired_time) : null,
-            location: m.rendezvous_place || null,
+            location: m.rendezvous_place !== undefined ? m.rendezvous_place : null,
             read: m.state,
           }))}
     />

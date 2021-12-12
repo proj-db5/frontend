@@ -34,7 +34,9 @@ const Talk = ({
   const [messageInput, setMessageInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState(30);
-
+  
+  console.log(messages);
+  
   return (
     <>
       <Container>
@@ -55,7 +57,7 @@ const Talk = ({
                   time={format(message.time, "aa hh:mm")}
                   read={message.read}
                   delTime={message.expireTime || undefined}
-                  location={message.location ? LocationType(message.location as number) : undefined}
+                  location={message.location !== null ? LocationType(message.location as number) : undefined}
                 /> :
                 <Bubble
                   key={`message-${message.time}`}
@@ -63,7 +65,7 @@ const Talk = ({
                   time={format(message.time, "aa hh:mm")}
                   read={message.read}
                   delTime={message.expireTime || undefined}
-                  location={message.location ? LocationType(message.location as number) : undefined}
+                  location={message.location !== null ? LocationType(message.location as number) : undefined}
                 />
             ))
           }
