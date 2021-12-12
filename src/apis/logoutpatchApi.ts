@@ -5,7 +5,7 @@ interface EditDataProps {
 }
 const logoutpatch = async (data: EditDataProps) => {
   try {
-    const res = await client.patch("/user/change", data);
+    const res = await client.patch("/user/logout", data);
     console.log("[SUCCESS] LOGOUT", res.data);
     return res.data;
   } catch (e) {
@@ -15,7 +15,7 @@ const logoutpatch = async (data: EditDataProps) => {
 };
 
 const logoutpatchApi = {
-    logoutpatch,
+  logoutpatch,
 };
 
 export default logoutpatchApi;

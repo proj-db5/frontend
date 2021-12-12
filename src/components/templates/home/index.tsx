@@ -12,7 +12,7 @@ interface HomeProps {
 }
 const Home = ({ userData, onlineList, offlineList }: HomeProps) => {
   return (
-    <Container page={NavigationPage.FRIENDS}>
+    <Container page={NavigationPage.FRIENDS} location={userData.place}>
       <Content>
         <ContentDivider text="내 정보" />
         <FriendProfile key={userData.id} data={userData} isUser />
