@@ -39,8 +39,8 @@ const getSearchedUsers = async (
 ): Promise<UserDataProps[] | undefined> => {
   try {
     const res = await client.get(url);
-    console.log("[SUCCESS] GET SEARCHED USERS", res.data.data.users);
-    return res.data.data.users;
+    console.log("[SUCCESS] GET SEARCHED USERS", res.data.data);
+    return res.data.data;
   } catch (e) {
     console.log("[FAIL] GET SEARCHED USERS", e);
     return undefined;
@@ -59,11 +59,8 @@ const getChatList = async (
     return undefined;
   }
 };
-  
 
-const getID = async (
-  url: string,
-): Promise<EmptyDataProps | undefined> => {
+const getID = async (url: string): Promise<EmptyDataProps | undefined> => {
   try {
     const res = await client.get(url);
     console.log("ID FOUND (NOT AVAILABLE FOR USE)");
@@ -74,9 +71,7 @@ const getID = async (
   }
 };
 
-const getAddFriend = async (
-  id: string,
-): Promise<UserDataProps | undefined> => {
+const getAddFriend = async (id: string): Promise<UserDataProps | undefined> => {
   try {
     const res = await client.get(`/friend/add/${id}`);
     console.log("[SUCCESS] ADD FRIEND");

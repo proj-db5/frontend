@@ -19,10 +19,10 @@ const HomePage = () => {
         <Home
           userData={FriendList?.userData[0]}
           onlineList={
-            FriendList?.friendData?.filter((fl) => fl.online === true) || []
+            FriendList?.friendData?.filter((fl) => fl.online === 1) || []
           }
           offlineList={
-            FriendList?.friendData?.filter((fl) => fl.online !== true) || []
+            FriendList?.friendData?.filter((fl) => fl.online !== 1) || []
           }
         />
       ) : (

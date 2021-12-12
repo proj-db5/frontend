@@ -2,7 +2,7 @@ export interface ChatDataProps {
   id: number;
   context: string;
   name: string;
-  online: boolean;
+  online: 1 | null;
   room_id: number;
   time: string;
   type: number;
@@ -14,7 +14,7 @@ export interface UserDataProps {
   type: number;
   place: number;
   state_message?: string;
-  online: boolean;
+  online: 1 | null;
   isFriend?: 0 | 1;
 }
 

@@ -47,7 +47,7 @@ export const FriendProfile = ({
         </ProfileAction>
       ) : (
         <ProfileAction
-          state={data.online}
+          state={data.online === 1}
           onClick={
             isUser
               ? () => router.push("/mypage")

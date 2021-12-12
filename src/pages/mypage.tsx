@@ -46,10 +46,9 @@ const MyPage = () => {
     }
   };
 
-
   useEffect(() => {
     const getUserData = async () => {
-      const res = await getApi.getFriendUsers("/friend/friend/list");
+      const res = await getApi.getFriendUsers("/friend/list");
       setData({
         msg: res?.userData[0]?.state_message || "",
         location: res?.userData[0]?.place || 0,
@@ -94,18 +93,9 @@ const MyPage = () => {
           <Button2 onClick={() => handleEdit(data)}>변경하기</Button2>
         </BtnWrap>
 
-        <Button1
+        <Button1 onClick={() => handleLogout({ online: 0 })}>로그아웃</Button1>
 
-          onClick={() => handleLogout({ online: 0 })}>
-          로그아웃</Button1>
-
-
-        <Button1
-
-          onClick={() => handleSignout()}>
-          회원탈퇴</Button1>
-
-
+        <Button1 onClick={() => handleSignout()}>회원탈퇴</Button1>
       </div>
     </Container>
   );
