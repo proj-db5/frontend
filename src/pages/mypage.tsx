@@ -24,7 +24,7 @@ const MyPage = () => {
       state_message: postData.state_message,
       place: postData.place,
     });
-    if (!res) {
+    if (res.status !== 200) {
       alert("수정을 실패하였습니다");
     } else {
       setLocation(data.place);
