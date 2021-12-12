@@ -28,6 +28,7 @@ const MyPage = () => {
       alert("수정을 실패하였습니다");
     } else {
       setLocation(data.place);
+      alert("수정을 완료하였습니다");
     }
   };
 
