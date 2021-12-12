@@ -20,7 +20,11 @@ const ChatProfile = ({ data }: ChatProfileProps) => {
           <p className="info__name">{data.name}</p>
           <p className="info__time">{data.time}</p>
         </div>
-        <ProfileMessage>{data.context}</ProfileMessage>
+        <ProfileMessage>
+          {(data.sender_id === data.id && data.is_expired === 1)
+            ? "(시간이 만료된 랑데부 메시지입니다.)"
+            : data.context}
+        </ProfileMessage>
       </ProfileInfo>
       <ProfileAction
         state={data.online === 1}

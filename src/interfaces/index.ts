@@ -1,11 +1,13 @@
 export interface ChatDataProps {
-  id: number;
+  id: string;
   context: string;
   name: string;
   online: 1 | null;
   room_id: number;
   time: string;
   type: number;
+  sender_id: string;
+  is_expired: 0 | 1;
 }
 
 export interface UserDataProps {

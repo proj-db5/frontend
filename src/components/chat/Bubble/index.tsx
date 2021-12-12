@@ -29,7 +29,7 @@ const Bubble = ({ text, time, read, location, delTime }: BubbleProps) => {
           className="profile_img"
           src="https://cdn.pixabay.com/photo/2019/08/01/12/36/illustration-4377408_960_720.png"
         />
-        <BubbleInnerWrap>{expired ? "(시간이 만료된 랑데부 메시지입니다)" : text}</BubbleInnerWrap>
+        <BubbleInnerWrap>{expired ? "(시간이 만료된 랑데부 메시지입니다.)" : text}</BubbleInnerWrap>
         <span className="time">{time}, {read ? "읽음" : "읽지 않음"}</span>
       </Container>
       {delTime && (
