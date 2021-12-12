@@ -7,6 +7,7 @@ import { requestGet, requestPost } from "../../libs/api/client";
 import Talk from "../../components/templates/chat";
 import { UserType } from "../../libs";
 import { socketContext } from "../../contexts/socket";
+import { deleteApi, getApi } from "../../apis";
 
 interface ChatProps {
   opponentId: string,
@@ -15,9 +16,14 @@ interface ChatProps {
 const Chat = ({ opponentId }: ChatProps) => {
   const socket = useContext(socketContext);
   const [liveMessages, setLiveMessages] = useState<ChatMessageData[]>([]);
+  const [isFriend, setIsFriend] = useState(false);
 
   const { data: me } = useSWR("/user/whoAmI", () => requestGet<UserResponse>("/user/whoAmI"));
   const { data: opponent } = useSWR(`/user/${opponentId}`, () => requestGet<UserResponse>(`/user/${opponentId}`));
+  const { data: friends } = useSWR(`/friend/${opponentId}`, getApi.getSearchedUsers);
+  if (friends && (isFriend !== !!friends?.find((f) => f.id === opponentId && f.isFriend === 1))) {
+    setIsFriend(!isFriend);
+  }
 
   useEffect(() => {
     requestGet<ChatMessageResponse>(`/chat/chatData/${opponentId}`).then((res) => {
@@ -92,15 +98,26 @@ const Chat = ({ opponentId }: ChatProps) => {
     window.scrollTo(0, document.body.scrollHeight);
   };
 
+  const addFriend = async () => {
+    await getApi.getAddFriend(opponentId);
+    setIsFriend(true);
+    alert("친구를 등록했습니다.");
+  };
+
+  const removeFriend = async () => {
+    await deleteApi.deleteFriend(opponentId);
+    setIsFriend(false);
+    alert("친구를 삭제했습니다.");
+  };
+
   if (!opponent) {
     return <></>;
   }
   return (
     <Talk name={opponent.name}
           type={UserType(opponent.type)}
-          isFriend={false}
-          onClickFriendBtn={() => {
-          }}
+          isFriend={isFriend}
+          onClickFriendBtn={() => isFriend ? removeFriend() : addFriend()}
           onClickSendNormal={sendNormal}
           onClickSendRendezvous={sendRendezvous}
           messages={liveMessages.map((m) => ({
