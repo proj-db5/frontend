@@ -31,21 +31,25 @@ const Chat = ({ opponentId }: ChatProps) => {
       window.scrollTo(0, document.body.scrollHeight);
     });
 
-    socket.on("RESPONSE_MESSAGE", (data) => {
-      appendMessage({
-        context: data.context,
-        time: data.time,
-        sender_id: data.from_id,
-        is_rendezvous: data.is_rendezvous,
-        state: true,
+    if (!socket.hasListeners("RESPONSE_MESSAGE")) {
+      socket.on("RESPONSE_MESSAGE", (data) => {
+        appendMessage({
+          context: data.context,
+          time: data.time,
+          sender_id: data.from_id,
+          is_rendezvous: data.is_rendezvous,
+          state: true,
+        });
       });
-    });
+    }
 
-    socket.on("READ_MESSAGE", (data) => {
-      if (data.read_id === opponentId) {
-        setLiveMessages((prev) => prev.map((m) => ({ ...m, state: true })));
-      }
-    });
+    if (!socket.hasListeners("READ_MESSAGE")) {
+      socket.on("READ_MESSAGE", (data) => {
+        if (data.read_id === opponentId) {
+          setLiveMessages((prev) => prev.map((m) => ({ ...m, state: true })));
+        }
+      });
+    }
   }, [me]);
 
   const sendNormal = async (text: string) => {

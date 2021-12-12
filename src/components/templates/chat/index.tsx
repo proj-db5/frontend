@@ -70,12 +70,16 @@ const Talk = ({
           <input
             className="text_input"
             placeholder="메세지 보내기..."
+            value={messageInput}
             onChange={(e) => setMessageInput(e.currentTarget.value)}
           />
           <BottomButton
             type="button"
             isActive={messageInput.length !== 0}
-            onClick={() => onClickSendNormal(messageInput)}
+            onClick={() => {
+              onClickSendNormal(messageInput);
+              setMessageInput("");
+            }}
           >
             일반
           </BottomButton>
@@ -96,6 +100,7 @@ const Talk = ({
         onClickBtn={() => {
           onClickSendRendezvous(messageInput, time);
           setIsOpen(false);
+          setMessageInput("");
         }}
       />
     </>
