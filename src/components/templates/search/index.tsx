@@ -1,5 +1,5 @@
 import { NavigationPage } from "src/components/Navigation";
-import { Container } from "src/components/frientlist/Container";
+import { Container } from "src/components/common/Container";
 import { ContentDivider } from "src/components/common/ContentDivider";
 import { FriendProfile } from "src/components/frientlist/FriendProfile";
 import { UserDataProps } from "src/interfaces";
