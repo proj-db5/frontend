@@ -5,6 +5,7 @@ import { FriendProfile } from "src/components/frientlist/FriendProfile";
 import { UserDataProps } from "src/interfaces";
 import styled from "styled-components";
 import { useState } from "react";
+import { Content } from "src/components/common/Content";
 
 interface SearchProps {
   searchList: UserDataProps[];
@@ -24,24 +25,26 @@ const Search = ({
 
   return (
     <Container page={NavigationPage.SEARCH} initData={initData}>
-      <Input
-        placeholder="id 또는 이름을 입력해주세요"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyPress={(e) => e.key === "Enter" && handleSearch(value)}
-      />
-      <div style={{ height: "30px" }} />
-      <ContentDivider text="검색 결과" />
-      {searchList.map((sl) => (
-        <FriendProfile
-          key={sl.id}
-          data={sl}
-          isSearch
-          isFriend={sl.isFriend}
-          handleAddFriend={handleAddFriend}
-          handleRemoveFriend={handleRemoveFriend}
+      <Content>
+        <Input
+          placeholder="id 또는 이름을 입력해주세요"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && handleSearch(value)}
         />
-      ))}
+        <div style={{ height: "30px" }} />
+        <ContentDivider text="검색 결과" />
+        {searchList.map((sl) => (
+          <FriendProfile
+            key={sl.id}
+            data={sl}
+            isSearch
+            isFriend={sl.isFriend}
+            handleAddFriend={handleAddFriend}
+            handleRemoveFriend={handleRemoveFriend}
+          />
+        ))}
+      </Content>
     </Container>
   );
 };
