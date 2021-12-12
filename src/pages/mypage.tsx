@@ -11,20 +11,23 @@ import signout from "../apis/signout";
 
 const MyPage = () => {
   const [data, setData] = useState({
-    msg: "",
-    location: 0,
+    state_message: "",
+    place: 0,
   });
   const setLocation = useSetRecoilState(states.LocationState);
 
-  const handleEdit = async (postData: { msg: string; location: number }) => {
+  const handleEdit = async (postData: {
+    state_message: string;
+    place: number;
+  }) => {
     const res = await patchApi.patchEditMypage({
-      state_message: postData.msg,
-      place: postData.location,
+      state_message: postData.state_message,
+      place: postData.place,
     });
     if (!res) {
-      alert("수정 실패!");
+      alert("수정을 실패하였습니다");
     } else {
-      setLocation(data.location);
+      setLocation(data.place);
     }
   };
 
@@ -33,7 +36,7 @@ const MyPage = () => {
     if (res) {
       router.push("/login");
     } else {
-      alert("로그아웃 실패!");
+      alert("로그아웃을 실패하였습니다");
     }
   };
 
@@ -42,7 +45,7 @@ const MyPage = () => {
     if (res) {
       router.push("/login");
     } else {
-      alert("회원탈퇴 실패!");
+      alert("회원탈퇴를 실패하였습니다");
     }
   };
 
@@ -50,8 +53,8 @@ const MyPage = () => {
     const getUserData = async () => {
       const res = await getApi.getFriendUsers("/friend/list");
       setData({
-        msg: res?.userData[0]?.state_message || "",
-        location: res?.userData[0]?.place || 0,
+        state_message: res?.userData[0]?.state_message || "",
+        place: res?.userData[0]?.place || 0,
       });
       setLocation(res?.userData[0]?.place || 0);
     };
@@ -60,26 +63,27 @@ const MyPage = () => {
 
   return (
     <Container page={NavigationPage.MYPAGE}>
-      <div style={{ padding: "0 28px" }}>
+      <InnerWrap>
         <P1>상태 메시지를 입력해주세요</P1>
         <Input
           placeholder="상태 메시지"
-          value={data.msg}
+          value={data.state_message}
           onChange={(e) =>
             setData({
               ...data,
-              msg: e.target.value,
+              state_message: e.target.value,
             })
           }
+          maxLength={20}
         />
 
         <P1>회원 유형을 선택해주세요</P1>
         <Select
-          value={data.location}
+          value={data.place}
           onChange={(e) =>
             setData({
               ...data,
-              location: Number(e.target.value),
+              place: Number(e.target.value),
             })
           }
         >
@@ -96,12 +100,24 @@ const MyPage = () => {
         <Button1 onClick={() => handleLogout({ online: 0 })}>로그아웃</Button1>
 
         <Button1 onClick={() => handleSignout()}>회원탈퇴</Button1>
-      </div>
+      </InnerWrap>
     </Container>
   );
 };
 
 export default MyPage;
+
+const InnerWrap = styled.div`
+  width: 100%;
+  padding: 0 28px;
+  max-width: 600px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Select = styled.select`
   width: 100%;
