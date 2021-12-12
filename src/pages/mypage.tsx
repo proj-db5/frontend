@@ -13,6 +13,7 @@ const MyPage = () => {
   const [data, setData] = useState({
     state_message: "",
     place: 0,
+    online: 0,
   });
   const setLocation = useSetRecoilState(states.LocationState);
 
@@ -24,7 +25,7 @@ const MyPage = () => {
       state_message: postData.state_message,
       place: postData.place,
     });
-    if (res.status !== 200) {
+    if (!res) {
       alert("수정을 실패하였습니다");
     } else {
       setLocation(data.place);
@@ -32,14 +33,20 @@ const MyPage = () => {
     }
   };
 
-  const handleLogout = async (postData: { online: number }) => {
-    const res = await logoutpatchApi.logoutpatch(postData);
-    if (res) {
-      router.push("/login");
+  const handleLogout = async (postData: {
+    online: number;
+  }) => {
+    const res = await patchApi.patchLogout({
+      online: postData.online,
+    });
+    if (!res) {
+      alert("수정을 실패하였습니다");
     } else {
-      alert("로그아웃을 실패하였습니다");
+      setLocation(data.place);
+      alert("수정을 완료하였습니다");
     }
   };
+
 
   const handleSignout = async () => {
     const res = await signout.Signout();
@@ -98,7 +105,7 @@ const MyPage = () => {
           <Button2 onClick={() => handleEdit(data)}>변경하기</Button2>
         </BtnWrap>
 
-        <Button1 onClick={() => handleLogout({ online: 0 })}>로그아웃</Button1>
+        <Button1 onClick={() => handleLogout(data)}>로그아웃</Button1>
 
         <Button1 onClick={() => handleSignout()}>회원탈퇴</Button1>
       </InnerWrap>
