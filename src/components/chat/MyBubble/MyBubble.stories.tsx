@@ -14,7 +14,7 @@ Rendezvous.args = {
   text: "앗 아니요! 아직 확인은 ..!",
   time: "오후 2:22",
   location: "공학관",
-  delTime: "오후 2:32",
+  delTime: new Date(),
 };
 
 export const NotRendezvous = Template.bind({});

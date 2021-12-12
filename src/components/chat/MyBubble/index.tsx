@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { format } from "date-fns";
 
 export interface MyBubbleProps {
   isRendezvous: boolean;
@@ -6,7 +7,7 @@ export interface MyBubbleProps {
   time: string;
   read: boolean;
   location?: string;
-  delTime?: string;
+  delTime?: Date;
 }
 const MyBubble = ({
   isRendezvous,
@@ -24,7 +25,7 @@ const MyBubble = ({
       </BubbleWrap>
       {delTime && (
         <span className="deleted_time">
-          {location}, {delTime}에 삭제됨
+          {location}, {format(delTime, "aa hh:mm")}에 삭제됨
         </span>
       )}
     </Container>
